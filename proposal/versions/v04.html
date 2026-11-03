@@ -1,0 +1,2045 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head><body>
+<title>대전·충청 법인 선물 전략</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: 한 화면에 한 문장 헤드라인. 흰 바탕 + 회색 카드 면 + 빨강 하나(우리 행동·목표에만) */
+:root{
+  --bg:#FFFFFF; --card:#F2F4F6; --card-2:#F9FAFB; --line:#E5E8EB; --sub:#8B95A1; --body:#4E5968; --title:#191F28;
+  --red:#E0262B; --red-soft:#FDECEC; --ink:#333D4B; --grey:#B0B8C1;
+  --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17171C; --card:#202027; --card-2:#1C1C22; --line:#2C2C35; --sub:#7E8794; --body:#B0B8C1; --title:#F2F4F6;
+  --red:#F04452; --red-soft:#3A1E22; --ink:#D1D6DB; --grey:#4E5968; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17171C; --card:#202027; --card-2:#1C1C22; --line:#2C2C35; --sub:#7E8794; --body:#B0B8C1; --title:#F2F4F6;
+  --red:#F04452; --red-soft:#3A1E22; --ink:#D1D6DB; --grey:#4E5968; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--body);font-family:var(--font);font-size:17px;line-height:1.6;letter-spacing:-0.01em;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{color:var(--title);margin:0;font-weight:800;letter-spacing:-0.03em;text-wrap:balance}
+h1,h2,h3,p,.v,.hl,.one,.scene{word-break:keep-all;overflow-wrap:anywhere}
+p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+.red{color:var(--red)}
+
+/* 상단 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);
+  margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+.top-in{max-width:1040px;margin:0 auto;display:flex;gap:14px;align-items:center;padding:12px max(16px,env(safe-area-inset-left,0px))}
+.top b{color:var(--title);font-size:15px;white-space:nowrap}
+.top nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.top nav::-webkit-scrollbar{display:none}
+.top nav a{font-size:13px;text-decoration:none;color:var(--sub);padding:6px 10px;border-radius:8px;white-space:nowrap;font-weight:500}
+.top nav a.on{color:var(--title);background:var(--card)}
+
+section{padding-block:clamp(64px,10vw,120px)}
+.kicker{font-size:15px;font-weight:700;color:var(--sub);margin-bottom:14px}
+h2{font-size:clamp(28px,4.6vw,42px);line-height:1.3;max-width:20em}
+.lead{font-size:clamp(17px,2vw,19px);color:var(--body);max-width:40em;margin-top:16px}
+.foot{font-size:12.5px;color:var(--sub);margin-top:18px}
+
+/* 배지 */
+.bd{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;line-height:1.4;vertical-align:middle}
+.bd-fake{background:var(--card);color:var(--sub)}
+.bd-fact{background:var(--ink);color:var(--bg)}
+.bd-voice{background:var(--ink);color:var(--bg)}
+.bd-line{border:1px solid var(--grey);color:var(--body)}
+.bd-est{background:var(--card);color:var(--sub)}
+.bd-now{background:var(--red);color:#fff}
+.bd-plain{background:var(--card);color:var(--body)}
+
+/* 아바타 */
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;background:var(--card);color:var(--title);flex:none}
+.av.lg{width:56px;height:56px;font-size:20px}
+.av.now{background:var(--red-soft);color:var(--red)}
+
+/* 1 결론 */
+.hero h1{font-size:clamp(34px,6vw,60px);line-height:1.22;max-width:14em}
+.faces{display:flex;flex-wrap:wrap;gap:18px;margin-top:40px}
+.face{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;color:var(--body);min-width:72px}
+.count{margin-top:44px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.count .n{font-size:clamp(64px,10vw,104px);font-weight:800;color:var(--red);line-height:1;letter-spacing:-0.04em}
+.count .t{font-size:18px;color:var(--title);font-weight:700}
+.count .s{font-size:14px;color:var(--sub);width:100%}
+
+/* 2 다섯 명 */
+.five{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:40px}
+@media (max-width:980px){.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.five{grid-template-columns:minmax(0,1fr)}}
+.pc{background:var(--card);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pc .who{display:flex;gap:10px;align-items:center}
+.pc .nm{color:var(--title);font-weight:800;font-size:17px}
+.pc .one{color:var(--title);font-weight:700;font-size:15.5px;line-height:1.45}
+.pc .scene{font-size:14px;color:var(--body);line-height:1.55}
+.anim .pc{animation:up .5s both;animation-delay:calc(var(--i)*60ms)}
+@keyframes up{from{transform:translateY(14px);opacity:.3}}
+
+/* 세그먼트 탭 */
+.seg{display:flex;gap:4px;background:var(--card);border-radius:14px;padding:4px;position:relative;overflow-x:auto;scrollbar-width:none;margin-top:32px;max-width:100%}
+.seg::-webkit-scrollbar{display:none}
+.seg button{position:relative;z-index:1;padding:10px 14px;border-radius:10px;font-size:15px;font-weight:700;color:var(--sub);white-space:nowrap;display:flex;gap:8px;align-items:center;transition:color .2s}
+.seg button[aria-selected="true"]{color:var(--title)}
+.seg .pill{position:absolute;z-index:0;top:4px;bottom:4px;border-radius:10px;background:var(--bg);box-shadow:0 1px 3px rgba(0,0,0,.08);transition:left .22s cubic-bezier(.3,.7,.2,1),width .22s cubic-bezier(.3,.7,.2,1)}
+.seg .av{width:24px;height:24px;font-size:11px}
+
+/* 3 페르소나 카드 */
+.pcard{margin-top:20px;background:var(--card);border-radius:24px;padding:clamp(20px,3.4vw,36px)}
+.pcard .hl{font-size:clamp(22px,3.2vw,30px);line-height:1.35;color:var(--title);font-weight:800;max-width:22em}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:24px}
+@media (max-width:820px){.pgrid{grid-template-columns:minmax(0,1fr)}}
+.cell{background:var(--bg);border-radius:16px;padding:18px;min-width:0}
+.cell .lb{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cell .v{color:var(--title);font-size:16px;font-weight:600;line-height:1.5}
+.cell.em{outline:2px solid var(--title);outline-offset:-2px}
+.bubble{margin-top:12px;background:var(--bg);border-radius:4px 16px 16px 16px;padding:12px 14px;font-size:15px;color:var(--body)}
+.months{display:flex;flex-wrap:wrap;gap:6px}
+.months span{background:var(--card);border-radius:8px;padding:4px 9px;font-size:13.5px;color:var(--title);font-weight:600}
+.months span.k{background:var(--red-soft);color:var(--red)}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:700;color:var(--title);font-size:15px}
+.flow i{font-style:normal;color:var(--grey)}
+.give{display:flex;flex-direction:column;gap:8px}
+.give div{display:flex;gap:8px;align-items:flex-start}
+.give div::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:10px}
+details.more{margin-top:16px}
+details.more summary{cursor:pointer;font-weight:700;color:var(--title);font-size:15px;list-style:none;padding:10px 0}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:" ＋";color:var(--sub)}
+details.more[open] summary::after{content:" －"}
+.ls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:640px){.ls{grid-template-columns:minmax(0,1fr)}}
+.ls ul{margin:0;padding-left:18px;font-size:14.5px}
+.ls h4{margin:0 0 6px;font-size:14px;color:var(--title)}
+.fade-in{animation:fade .3s both}
+@keyframes fade{from{opacity:.2;transform:translateY(6px)}}
+
+/* 4 여정 지도 */
+.jhead{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-top:24px}
+.jhead .hl{font-size:clamp(22px,3.2vw,30px);line-height:1.35;color:var(--title);font-weight:800;max-width:20em}
+.toggle{display:flex;background:var(--card);border-radius:12px;padding:4px;gap:4px;flex:none}
+.toggle button{padding:8px 12px;border-radius:9px;font-size:14px;font-weight:700;color:var(--sub)}
+.toggle button[aria-pressed="true"]{background:var(--bg);color:var(--title);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.chartbox{margin-top:16px;background:var(--card-2);border:1px solid var(--line);border-radius:20px;padding:12px 6px 6px;overflow-x:auto}
+.jsvg{display:block;width:100%;min-width:880px;height:auto}
+.jsvg text{font-family:var(--font);fill:var(--sub);font-size:11px}
+.jsvg .ref{stroke:var(--line);stroke-width:1}
+.jsvg .today{stroke:var(--red);stroke-width:1.5}
+.jsvg .reflab{font-size:10.5px;fill:var(--sub);font-weight:500}
+.jsvg .asis{fill:none;stroke:var(--grey);stroke-width:2.5;transition:d .4s ease}
+.jsvg .tobe{fill:none;stroke:var(--red);stroke-width:2.5;stroke-dasharray:7 5;transition:d .4s ease,opacity .3s}
+.jsvg .gap{fill:var(--red-soft);transition:d .4s ease,opacity .3s}
+.jsvg .lane{font-size:11.5px;font-weight:700;fill:var(--body)}
+.jsvg .lanebg{fill:var(--card)}
+.jsvg .dot{fill:var(--red);transition:opacity .3s}
+.jsvg .dotlab{font-size:10.5px;fill:var(--title);font-weight:600}
+.jsvg .sp{fill:var(--bg);stroke:var(--grey);stroke-width:2;cursor:pointer}
+.jsvg .sp.mo{stroke:var(--red);fill:var(--red)}
+.jsvg .ph{font-size:10.5px;font-weight:700;fill:var(--red)}
+.jsvg .phbg{fill:var(--red-soft)}
+.jsvg .empty{font-size:13px;fill:var(--sub);font-weight:600}
+.asis-mode .tobe,.asis-mode .gap,.asis-mode .dot,.asis-mode .dotlab{opacity:0}
+.tobe-mode .empty{opacity:0}
+.asis-mode .empty{opacity:1}
+.ring{fill:none;stroke:var(--red);stroke-width:2;transform-box:fill-box;transform-origin:center}
+.anim .ring{animation:ring 1.4s .6s ease-out both}
+@keyframes ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+.stages{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 12px;margin-top:14px}
+.st{scroll-snap-align:start;flex:none;width:200px;background:var(--card);border-radius:16px;padding:14px;text-align:left;display:flex;flex-direction:column;gap:6px;border:2px solid transparent}
+.st.mo{border-color:var(--red)}
+.st .d{font-size:12.5px;font-weight:700;color:var(--sub)}
+.st .k{font-size:15px;font-weight:800;color:var(--title)}
+.st .w{font-size:13.5px;color:var(--body);line-height:1.45}
+.st .o{font-size:13px;color:var(--title);line-height:1.45;background:var(--red-soft);border-radius:8px;padding:6px 8px}
+.st .sn{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:10.5px;margin-right:6px;vertical-align:-3px}
+.asis-view .st .o{display:none}
+.st .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto}
+.st .tg{font-size:11px;font-weight:700;color:var(--red);background:var(--red-soft);padding:2px 7px;border-radius:6px}
+.st .tg.m{background:var(--red);color:#fff}
+.st:hover,.st.on{border-color:var(--title)}
+.st.mo.on{border-color:var(--red)}
+.stories{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:20px}
+@media (max-width:760px){.stories{grid-template-columns:minmax(0,1fr)}}
+.story{background:var(--card);border-radius:18px;padding:18px}
+.story h4{margin:0 0 10px;font-size:15px;color:var(--title)}
+.steps{display:flex;flex-direction:column;gap:8px}
+.steps div{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+.steps div b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11.5px;background:var(--grey);color:var(--bg)}
+.story.grow .steps div b{background:var(--red);color:#fff}
+.anim .story.grow .steps div{animation:up .4s both;animation-delay:calc(.3s + var(--i)*150ms)}
+.cal12{display:flex;gap:6px;overflow-x:auto;margin-top:12px;padding-bottom:6px}
+.cal12 div{flex:none;width:140px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:12.5px;color:var(--body)}
+.cal12 div b{display:block;color:var(--title);font-size:13px;margin-bottom:2px}
+.rolenote{font-size:13px;color:var(--sub);margin-top:10px}
+
+/* 시트 */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:30;opacity:0;pointer-events:none;transition:opacity .2s}
+.sheet-bg.open{opacity:1;pointer-events:auto}
+.sheet{visibility:hidden;position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:min(640px,100%);z-index:31;background:var(--bg);border-radius:24px 24px 0 0;
+  padding:22px max(20px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));transition:transform .28s cubic-bezier(.3,.7,.2,1),visibility .28s;max-height:82vh;overflow:auto}
+.sheet.open{transform:translate(-50%,0);visibility:visible}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 14px}
+.sheet h3{font-size:21px}
+.sheet .row{padding:12px 0;border-bottom:1px solid var(--line)}
+.sheet .row .lb{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px}
+.sheet .row .v{color:var(--title);font-size:15.5px}
+.sheet .close{margin-top:16px;width:100%;background:var(--card);border-radius:14px;padding:14px;font-weight:700;color:var(--title)}
+
+/* 5 다음 100일 */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:24px}
+.chips button{padding:8px 12px;border-radius:999px;background:var(--card);font-size:14px;font-weight:700;color:var(--body);display:flex;gap:6px;align-items:center}
+.chips button[aria-pressed="true"]{background:var(--title);color:var(--bg)}
+.hsvg{display:block;width:100%;min-width:900px;height:auto}
+.hsvg text{font-family:var(--font);font-size:11px;fill:var(--sub)}
+.hsvg .lane{font-size:12px;font-weight:700;fill:var(--body)}
+.hsvg .ev{transition:opacity .25s}
+.hsvg .ev.dim{opacity:.08}
+.hsvg .evc{fill:var(--red)}
+.hsvg .evt{font-size:10px;font-weight:800;fill:#fff}
+.hsvg .evl{font-size:10.5px;fill:var(--title);font-weight:600}
+
+/* 6 비교표 */
+.tbl{overflow-x:auto;margin-top:32px}
+.tbl table{width:100%;border-collapse:separate;border-spacing:0;min-width:820px;font-size:14.5px}
+.tbl th,.tbl td{padding:14px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.tbl th{font-size:13px;color:var(--sub);font-weight:700}
+.tbl td.rh{font-weight:800;color:var(--title);white-space:nowrap;font-size:14px}
+.tbl td b.no{color:var(--ink);font-weight:800}
+
+/* 7 작년 기록 카드 */
+.recwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px;align-items:center;margin-top:40px}
+@media (max-width:820px){.recwrap{grid-template-columns:minmax(0,1fr)}}
+.rec{background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 20px 40px -28px rgba(0,0,0,.35);position:relative}
+.anim .rec{animation:flip .8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes flip{from{transform:perspective(1000px) rotateY(-24deg);opacity:.3}}
+.rec .wm{position:absolute;right:18px;top:18px}
+.rec h3{font-size:20px}
+.rec .meta{font-size:13px;color:var(--sub);margin-top:4px}
+.rec .f{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.rec .f:last-child{border-bottom:0}
+.rec .f span{color:var(--sub);font-weight:700;font-size:13px}
+.rec .f div{color:var(--title);font-weight:600}
+.anim .rec .f{animation:up .4s both;animation-delay:calc(.6s + var(--i)*120ms)}
+.then{display:flex;flex-direction:column;gap:14px}
+.then .arrow{font-size:28px;color:var(--red);font-weight:800}
+.then .big{font-size:clamp(22px,3vw,28px);font-weight:800;color:var(--title);line-height:1.35}
+
+/* 8 숫자 */
+.ngrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:40px}
+@media (max-width:820px){.ngrid{grid-template-columns:minmax(0,1fr)}}
+.nbox{background:var(--card);border-radius:20px;padding:22px;min-width:0}
+.nbox h3{font-size:17px}
+.bars{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.bar{display:grid;grid-template-columns:118px minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:14px}
+.bar .tr{height:12px;background:var(--bg);border-radius:6px;overflow:hidden}
+.bar .fl{height:100%;border-radius:6px;background:var(--ink);transform-origin:left}
+.bar .fl.r{background:var(--red)}
+.anim .bar .fl{animation:grow 1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.bar .p{font-weight:800;color:var(--title);text-align:right;font-variant-numeric:tabular-nums}
+.src{font-size:12.5px;color:var(--sub);margin-top:12px;line-height:1.5}
+.rsvg{display:block;width:100%;height:auto;min-width:520px}
+.rsvg text{font-family:var(--font);font-size:11px;fill:var(--sub)}
+.rsvg .nm{font-size:12.5px;font-weight:700;fill:var(--title)}
+
+/* 9 */
+.zero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:center;margin-top:36px}
+@media (max-width:700px){.zero{grid-template-columns:minmax(0,1fr)}}
+.zero .z{font-size:clamp(140px,22vw,220px);font-weight:800;color:var(--ink);line-height:.9;letter-spacing:-0.05em}
+.nots{display:flex;flex-direction:column;gap:12px}
+.nots div{background:var(--card);border-radius:14px;padding:14px 16px;font-size:15px;color:var(--title)}
+
+/* 10 */
+.dec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:36px}
+@media (max-width:820px){.dec{grid-template-columns:minmax(0,1fr)}}
+.dc{background:var(--card);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.dc .w{font-size:28px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.dc .t{font-weight:800;color:var(--title);font-size:17px}
+.dc dl{margin:0;display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 10px;font-size:14px}
+.dc dt{color:var(--sub);font-weight:700}
+.dc dd{margin:0;color:var(--body)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+@media (max-width:820px){.kpis{grid-template-columns:minmax(0,1fr)}}
+.kp{border:1px solid var(--line);border-radius:18px;padding:18px}
+.kp .when{font-size:13px;font-weight:700;color:var(--red)}
+.kp .n{font-weight:800;color:var(--title);margin-top:4px}
+.kp .s{font-size:14px;color:var(--sub);margin-top:2px}
+
+.srcs{padding-block:56px 80px;border-top:1px solid var(--line)}
+.srcs h2{font-size:22px}
+.slist{margin-top:16px;columns:2 320px;column-gap:36px;font-size:13px}
+.slist div{break-inside:avoid;padding:8px 0;border-bottom:1px solid var(--line)}
+.slist b{color:var(--title)}
+
+.pl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:36px}
+@media (max-width:900px){.pl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.pl-grid{grid-template-columns:minmax(0,1fr)}}
+.pl{background:var(--card);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.pl .lb{font-size:13px;font-weight:700;color:var(--sub)}
+.pl .v{font-size:clamp(24px,3vw,30px);font-weight:800;color:var(--title);letter-spacing:-0.03em;line-height:1.2}
+.pl .v.r{color:var(--red)}
+.pl .s{font-size:14px;color:var(--body);line-height:1.5}
+.pl.key{background:var(--red-soft)}
+.pltbl{overflow-x:auto;margin-top:16px}
+.pltbl table{width:100%;min-width:560px;border-collapse:collapse;font-size:15px}
+.pltbl th,.pltbl td{padding:12px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.pltbl th:first-child,.pltbl td:first-child{text-align:left;color:var(--sub);font-weight:700;font-size:13.5px}
+.pltbl th{font-size:13px;color:var(--sub)}
+.pltbl td{color:var(--title);font-weight:600}
+.pltbl tr.hi td{color:var(--red);font-weight:800}
+.pltbl th.mid,.pltbl td.mid{background:var(--card)}
+.notes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:16px}
+@media (max-width:760px){.notes{grid-template-columns:minmax(0,1fr)}}
+.notes div{border:1px solid var(--line);border-radius:16px;padding:16px;font-size:14.5px}
+.notes b{color:var(--title);display:block;margin-bottom:4px}
+.anim .pl{animation:up .5s both;animation-delay:calc(var(--i)*80ms)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="top"><div class="top-in"><b>법인 선물 전략</b>
+<nav aria-label="화면 이동"><a href="#s0">손익</a><a href="#s1">결론</a><a href="#s2">두 사람</a><a href="#s3">페르소나</a><a href="#s4">여정 지도</a><a href="#s5">다음 100일</a><a href="#s6">비교</a><a href="#s7">기록 카드</a><a href="#s8">근거 숫자</a><a href="#s10">결정</a></nav>
+</div></header>
+
+<main class="wrap">
+
+<section id="s0" class="hero anim-target">
+  <p class="kicker">대표·마케팅이사 보고 · 2026년 11월 2일 · 손익 한 장</p>
+  <h1>법인 고객 CRM을 하지 않으면, 매년 <span class="red">약 2,900만 원</span>의 이익이 빠져나갑니다.</h1>
+  <p class="lead">경제단체 10곳과 소기업 700곳 기준입니다(소기업 300곳이면 약 1,460만 원, 1,500곳이면 약 5,720만 원). 해마다 떠나는 법인들이 앞으로 5년간 우리에게 남겼을 이익입니다. <span class="bd bd-est">시나리오 · 실제 거래처 수는 데이터 열람 후 확정</span></p>
+  <div class="pl-grid">
+    <div class="pl" style="--i:0"><span class="lb">투자</span><span class="v">인력 0명 · 개발비 0원</span><span class="s">AI 에이전트를 Claude로 직접 만듭니다. 남는 비용은 AI 운영비 연 0~300만 원과 문자 발송비(법인당 연 약 540원)입니다.</span></div>
+    <div class="pl key" style="--i:1"><span class="lb">본전선</span><span class="v r">100곳 중 2곳</span><span class="s">떠나는 법인 100곳 중 2곳만 붙잡아도 본전입니다(운영비 0원). AI 운영비를 연 300만 원으로 잡으면 700곳 기준 12곳입니다.</span></div>
+    <div class="pl" style="--i:2"><span class="lb">이탈을 20% 줄이면 (700곳)</span><span class="v">연 240만~540만 원</span><span class="s">순효과입니다. 1,500곳이면 760만~1,060만 원입니다. 300곳에 운영비 300만 원이면 본전 아래입니다.</span></div>
+    <div class="pl" style="--i:3"><span class="lb">사람 손 0</span><span class="v">모두 자동</span><span class="s">견적·재주문 문자·정산 서류·발송 안내까지 AI 에이전트가 보냅니다. 사람은 주문 확정과 납품만 합니다.</span></div>
+  </div>
+  <div class="pltbl"><table>
+    <thead><tr><th>정미숙형 소기업 수 (+윤재현형 10곳)</th><th>300곳</th><th class="mid">700곳</th><th>1,500곳</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td>안 하면 잃는 이익 (매년)</td><td>약 1,460만</td><td class="mid">약 2,880만</td><td>약 5,720만</td></tr>
+      <tr><td>이탈 20% 감소 시 지키는 이익</td><td>약 290만</td><td class="mid">약 580만</td><td>약 1,150만</td></tr>
+      <tr><td>비용 (발송 + AI 운영 0~300만)</td><td>17만~317만</td><td class="mid">38만~338만</td><td>82만~382만</td></tr>
+      <tr><td>순효과</td><td>−30만~280만</td><td class="mid">240만~540만</td><td>760만~1,060만</td></tr>
+    </tbody></table></div>
+  <div class="notes">
+    <div><b>효과는 이렇게 확인합니다</b>정미숙형 소기업은 무작위로 80%에만 보내고 20%는 비교 그룹으로 둡니다. 윤재현형은 10곳뿐이라 작년 같은 시기와 비교합니다. 설과 추석을 합쳐 1차 판정하고, 실행 그룹 재구매율이 비교 그룹보다 높지 않으면 자동 발송을 멈춥니다.</div>
+    <div><b>숫자가 작은 이유와 키울 곳</b>정미숙형 1곳의 5년 이익은 16만 원뿐이고, 마진을 선물세트 10%·상품권 1%로 낮게 잡았습니다. 상품권을 쓰러 온 직원의 추가 구매, 명절 외 행사 수주는 넣지 않았습니다. 지키는 이익은 5년치, 비용은 1년치라 현재가치로 다시 맞출 예정입니다.</div>
+  </div>
+  <p class="foot">구성 가정: 윤재현형 경제단체 10곳 + 정미숙형 소기업 300·700·1,500곳. 이탈률 22.2%와 5년 이익(윤재현형 178만 원, 정미숙형 16만 원)은 수치모델 기본안입니다. 발송비는 장문 문자 45원(솔라피 기본 단가) × 연 12건입니다.</p>
+</section>
+
+<section id="s1" class="hero">
+  <p class="kicker">누가 떠나는가</p>
+  <h1>우리가 지킬 법인 고객은 두 사람입니다. 이들은 <span class="red">우리가 먼저 연락하지 않을 때</span> 떠납니다.</h1>
+  <p class="lead">경제단체 사무국 과장과 12명 회사 경리 실장입니다. 두 사람의 1년을 날짜 단위로 그려 보니, 떠나는 순간은 달라도 모두 다음 행사 전에 아무도 먼저 연락하지 않았을 때였습니다. <span class="bd bd-est">추정 · 여정 지도 비교</span></p>
+  <div class="faces" id="faces"></div>
+  <div class="count">
+    <span class="n num" id="cnt7">7</span><span class="t">일</span>
+    <span class="s">오늘부터 첫 연락일(11월 9일, 설 90일 전)까지 · 설 제안서 마감 12월 9일까지는 37일 <span class="bd bd-line">계산 · 설 2027-02-07</span></span>
+  </div>
+  <p class="foot">인물·장면·말·감정은 실제 고객 조사가 아닌 설계용 가상 사례입니다. 결정 요청 3가지는 마지막 화면에 있습니다.</p>
+</section>
+
+<section id="s2" class="anim-target">
+  <p class="kicker">두 사람 한눈에</p>
+  <h2>두 사람, 두 가지 1년</h2>
+  <p class="lead">같은 '법인 고객'이어도 선물을 사는 이유, 결정하는 사람, 무서워하는 것이 다릅니다.</p>
+  <div class="five" id="five"></div>
+</section>
+
+<section id="s3" class="anim-target">
+  <p class="kicker">페르소나</p>
+  <h2>카드 한 장이면 누구 이야기인지 보입니다</h2>
+  <div class="seg" role="tablist" id="segP" aria-label="페르소나 선택"><span class="pill"></span></div>
+  <div id="pcard"></div>
+  <p class="foot">인물·장면·말은 설계용 가상 사례입니다. 근거 배지: <span class="bd bd-fact">사실</span> 원문 확인 · <span class="bd bd-voice">실제 증언</span> 사용자 현장 증언 · <span class="bd bd-line">업계 관행</span> · <span class="bd bd-est">추정</span></p>
+</section>
+
+<section id="s4" class="anim-target">
+  <p class="kicker">고객 여정 지도</p>
+  <h2>어느 날짜에, 누가, 무엇을 하는지</h2>
+  <p class="lead">가로축은 실제 날짜입니다. 사람을 바꿔도 축은 그대로라, 누가 언제 갈리는지 바로 비교됩니다. 단계를 누르면 속마음과 이탈 신호가 열립니다.</p>
+  <div class="seg" role="tablist" id="segJ" aria-label="여정 지도 인물 선택"><span class="pill"></span></div>
+  <div class="jhead"><p class="hl" id="jhl"></p>
+    <div class="toggle" role="group" aria-label="보기 전환"><button id="tAs" aria-pressed="false">지금</button><button id="tTo" aria-pressed="true">우리가 개입하면</button></div>
+  </div>
+  <div class="chartbox"><svg class="jsvg tobe-mode" id="jsvg" viewBox="0 0 980 470" role="img" aria-label="선택한 인물의 날짜별 감정 곡선과 우리 쪽 역할별 행동"></svg></div>
+  <p class="foot">회색 실선: 지금(추정 감정) · 빨간 점선: 목표 · 크게 칠한 점: 결정적 순간 · 아래 줄의 번호: 우리 쪽 할 일(단계 카드 번호와 같음) · 11~2월은 단계가 몰려 가로 간격을 넓혔습니다.</p>
+  <div class="stages" id="stages"></div>
+  <div class="stories" id="stories"></div>
+  <div class="story" style="margin-top:12px"><h4>12개월 연락 달력</h4><div class="cal12" id="cal12"></div></div>
+  <p class="rolenote">아래 다섯 줄은 모두 AI 에이전트가 자동으로 하는 일입니다(제안·안내·정산 서류·주문과 배송 안내·정기 알림). 사람은 주문 확정과 납품만 합니다. <span class="bd bd-est">설계값</span></p>
+</section>
+
+<section id="s5" class="anim-target">
+  <p class="kicker">다음 100일</p>
+  <h2>다음 100일, 누가 언제 무엇을</h2>
+  <p class="lead">두 사람의 여정에서 오늘부터 설 직후(2월 15일)까지 AI 에이전트가 할 일만 모았습니다. 세로 줄은 에이전트의 일 종류이고, 원 안 글자는 고객입니다.</p>
+  <div class="chips" id="chips"></div>
+  <div class="chartbox"><svg class="hsvg" id="hsvg" viewBox="0 0 1000 330" role="img" aria-label="11월 2일부터 2월 15일까지 역할별 할 일 달력"></svg></div>
+  <p class="foot">윤재현은 11월 9일 연간 일정표로, 정미숙은 12월 24일 재주문 문자로 시작합니다. 날짜는 여정 지도 설계값입니다.</p>
+</section>
+
+<section id="s6" class="anim-target">
+  <p class="kicker">두 사람 비교</p>
+  <h2>갈리는 날은 다르고, 해법은 하나입니다</h2>
+  <div class="tbl"><table id="cmp"></table></div>
+</section>
+
+<section id="s7" class="anim-target">
+  <p class="kicker">공통 해법</p>
+  <h2>납품 3일 뒤, 이 한 장을 남깁니다</h2>
+  <p class="lead">두 사람의 1년은 모두 '작년 자료 찾기'에서 시작합니다. 우리가 그 자료를 먼저 갖고 있으면, 다음 행사의 비교 단계가 '작년대로 올림'으로 바뀝니다.</p>
+  <div class="recwrap">
+    <div class="rec">
+      <span class="bd bd-fake wm">견본 · 가상</span>
+      <h3>작년 기록 카드</h3>
+      <p class="meta">○○상사(12명) 경리 · 2027 설 · 납품 3일 뒤 자동 발송</p>
+      <div style="margin-top:12px">
+        <div class="f" style="--i:0"><span>품목</span><div>한우 세트 · 과일 세트 · 거래처 답례</div></div>
+        <div class="f" style="--i:1"><span>수량·단가</span><div>직원 12개 10만 원대 · 거래처 15곳 5만 원대</div></div>
+        <div class="f" style="--i:2"><span>받는 사람</span><div>직원 12명 · 거래처 15곳 (주소 저장됨)</div></div>
+        <div class="f" style="--i:3"><span>정산 서류</span><div>세금계산서 · 직원용/거래처용 나눈 정리본</div></div>
+        <div class="f" style="--i:4"><span>직원 반응</span><div>대표 '포장 좋았다' · 과일 세트 선호 (문자 1문항)</div></div>
+        <div class="f" style="--i:5"><span>다음 행사</span><div>추석 8월 2일 재주문 문자 자동 예약</div></div>
+      </div>
+    </div>
+    <div class="then">
+      <span class="arrow">→</span>
+      <p class="big">다음 행사 전에 AI 에이전트가 이 카드로 '작년 그대로 + 바뀐 점'을 먼저 보냅니다.</p>
+      <p>'작년 그대로' 재주문서, 결과 요약, 정산 정리본을 한 장으로 잇는 실물입니다. 사람이 쓰지 않고 주문 기록에서 자동으로 만들어지므로, 담당자가 바뀌어도 끊기지 않습니다.</p>
+      <p><span class="bd bd-plain">윤재현형은 단체 명의 메일로</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="s8" class="anim-target">
+  <p class="kicker">근거 숫자</p>
+  <h2>한 곳에 맡기는 회사는 18%뿐입니다</h2>
+  <p class="lead">그래서 충성은 기다리는 것이 아니라 만들어야 합니다. 숫자는 여기서 처음, 그리고 범위로만 씁니다.</p>
+  <div class="ngrid">
+    <div class="nbox"><h3>회사 선물 구매처를 어떻게 정하나</h3>
+      <div class="bars">
+        <div class="bar"><span>주 거래처 한 곳</span><div class="tr"><div class="fl r" style="width:18%"></div></div><span class="p">18%</span></div>
+        <div class="bar"><span>행사별 여러 업체</span><div class="tr"><div class="fl" style="width:35%"></div></div><span class="p">35%</span></div>
+        <div class="bar"><span>사내 직접 처리</span><div class="tr"><div class="fl" style="width:27%"></div></div><span class="p">27%</span></div>
+        <div class="bar"><span>온라인 플랫폼</span><div class="tr"><div class="fl" style="width:20%"></div></div><span class="p">20%</span></div>
+      </div>
+      <p class="src"><span class="bd bd-fact">사실</span> Custom Ink 2026, 미국 중심, 연말 직원 선물, 구매 담당자 509명</p></div>
+    <div class="nbox"><h3>선물 담당자가 가장 먼저 보는 것</h3>
+      <div class="bars">
+        <div class="bar"><span>가격대</span><div class="tr"><div class="fl" style="width:55%"></div></div><span class="p">55%</span></div>
+        <div class="bar"><span>상품 구성</span><div class="tr"><div class="fl" style="width:23%"></div></div><span class="p">23%</span></div>
+        <div class="bar"><span>브랜드</span><div class="tr"><div class="fl r" style="width:5%"></div></div><span class="p">5%</span></div>
+      </div>
+      <p class="src"><span class="bd bd-fact">사실</span> 선물24 고객사 담당자 500명, 머니투데이 2024-09-14</p></div>
+    <div class="nbox"><h3>먼저 도착하는 쪽은</h3>
+      <div class="bars">
+        <div class="bar"><span>우리 제안서</span><div class="tr"><div class="fl r" style="width:100%"></div></div><span class="p">12/9</span></div>
+        <div class="bar"><span>백화점 사전예약</span><div class="tr"><div class="fl" style="width:62%"></div></div><span class="p">12/27~</span></div>
+      </div>
+      <p class="src"><span class="bd bd-fact">사실</span> 2026 설 사전예약은 백화점 3사 모두 1/9 시작(명절 5~6주 전, 디지털데일리). 2027 설 날짜는 이를 옮긴 <span class="bd bd-est">추정</span>. 롯데 법인 상담 답변은 영업일 2~3일 <span class="bd bd-fact">사실</span></p></div>
+    <div class="nbox"><h3>재구매율 80%가 갈림길</h3>
+      <div class="bars">
+        <div class="bar"><span>재구매율 50%</span><div class="tr"><div class="fl" style="width:30.6%"></div></div><span class="p">10만</span></div>
+        <div class="bar"><span>재구매율 70%</span><div class="tr"><div class="fl" style="width:49.8%"></div></div><span class="p">16만</span></div>
+        <div class="bar"><span>재구매율 80%</span><div class="tr"><div class="fl" style="width:68.4%"></div></div><span class="p">22만</span></div>
+        <div class="bar"><span>재구매율 90%</span><div class="tr"><div class="fl r" style="width:100%"></div></div><span class="p">32만</span></div>
+      </div>
+      <p class="src"><span class="bd bd-est">시나리오</span> 정미숙 회사(12명) 1곳, 10년을 내다본 누적 기대 이익(마진 8.7%). 재구매율이 높을수록 자동 연락의 값이 커집니다. 우리 실제 재구매율은 아직 모릅니다.</p></div>
+  </div>
+  <div class="nbox" style="margin-top:12px"><h3>고객 1곳이 5년간 남길 이익 (범위, 로그 눈금)</h3>
+    <div style="overflow-x:auto;margin-top:12px"><svg class="rsvg" id="rsvg" viewBox="0 0 900 140" role="img" aria-label="페르소나별 5년 이익 범위"></svg></div>
+    <p class="src"><span class="bd bd-est">시나리오</span> 수치모델 보수~낙관 범위, 점은 기본안. 혼합 마진 약 7~10%. 우리 몫 31%(24~41%)는 미국 조사 비율과 가정에 기댑니다. 고객 명단을 받으면 바꿉니다.</p></div>
+</section>
+
+
+<section id="s10" class="anim-target">
+  <p class="kicker">결정 요청</p>
+  <h2>오늘 정할 것 두 가지</h2>
+  <div class="dec">
+    <div class="dc"><span class="w num">11/6</span><span class="t">① 법인 고객 명단·마진 자료 열람</span><dl><dt>무엇을</dt><dd>최근 3년 법인 구매 이력, 품목별 마진율 (개인정보 가림)</dd><dt>누가</dt><dd>마케팅팀 + 법인영업팀·재무</dd><dt>비용</dt><dd>외부 비용 거의 없음 (추정)</dd><dt>재보고</dt><dd>받은 뒤 2주 안: 우리 법인 고객 수·매출·이익</dd></dl></div>
+    <div class="dc"><span class="w num">11/13</span><span class="t">② 설 시범 운영 (전부 자동)</span><dl><dt>무엇을</dt><dd>윤재현형 경제단체와 정미숙형 소기업에 AI 에이전트 자동 발송. 소기업 20%는 비교 그룹</dd><dt>누가</dt><dd>마케팅팀 (추가 인력 없음, 사람은 주문 확정·납품만)</dd><dt>비용</dt><dd>개발비 0원(Claude로 자체 구축), AI 운영비 연 0~300만 원 + 발송비 법인당 연 약 540원</dd><dt>재보고</dt><dd>2027년 3월 1차, 추석 후 2차</dd></dl></div>
+    
+  </div>
+  <div class="kpis">
+    <div class="kp"><div class="when">2027년 1월 · 앞선 지표</div><div class="n">제안 후 30일 안 회신율·주문 금액</div><div class="s">실행 그룹 vs 비교 그룹</div></div>
+    <div class="kp"><div class="when">2027년 3월 · 1차 보고</div><div class="n">설 재구매율 차이</div><div class="s">실행 그룹과 비교 그룹의 차이. 본전선은 이탈 1.3% 감소(운영비 0원)</div></div>
+    <div class="kp"><div class="when">2027년 추석 후 · 2차 보고</div><div class="n">설+추석 누적 지킨 이익</div><div class="s">지킨 이익 − 비용. 비교 그룹보다 낫지 않으면 자동 발송 중단</div></div>
+  </div>
+  <p class="foot">승인 날짜는 팀 제안입니다. 잠정 목표는 본전선(운영비 0원이면 이탈 1.3%, 300만 원이면 약 12% 감소)을 넘기는 것이며, 실제 거래처 수를 받은 뒤 확정합니다.</p>
+</section>
+
+<section class="srcs">
+  <h2>근거와 출처</h2>
+  <div class="slist">
+    <div><b>페르소나·여정 지도</b> · 공개 자료와 업계 노트를 바탕으로 만든 가상 사례. 검수 4단계 반영(쓰면 안 되는 내용 3건 삭제·정정)</div>
+    <div><b>실제 증언</b> · 대전상공회의소는 행사·직원 선물·회원사 감사 선물을 백화점에서 샀고, 백화점은 지역 업체로 인정됐다 (사용자, 2026-11-01)</div>
+    <div><b>18% · 35%</b> · Custom Ink 2026, 미국 중심, 구매 담당자 509명</div>
+    <div><b>55% · 5%</b> · 선물24 고객사 담당자 500명, 머니투데이 2024-09-14</div>
+    <div><b>사전예약 1/9</b> · 디지털데일리 2026-01-08 (2026 설 기준)</div>
+    <div><b>법인 상담 영업일 2~3일</b> · 롯데백화점 법인 상담 신청서 안내</div>
+    <div><b>문자 발송비</b> · 솔라피 기본 단가(알림톡 13원, 장문 문자 45원, VAT 별도)</div>
+    <div><b>5년 LTV 범위·재구매율 곡선</b> · 수치모델(보수·기본·낙관), 매출 기준</div>
+    <div><b>날짜</b> · 2027 설 2월 7일 기준 계산. 11~2월 일정은 여정 지도 설계값</div>
+  </div>
+</section>
+</main>
+
+<div class="sheet-bg" id="sheetBg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="grab"></div><h3 id="shT"></h3><div id="shB"></div><button class="close" id="shC">닫기</button></div>
+
+<script>
+var J = {
+ "meta": {
+  "title": "페르소나별 여정 지도 (2026-11 ~ 2027-10)",
+  "baseDate": "2027-02-07 설 (연휴 2/6~9)",
+  "keyDates": {
+   "D-90": "2026-11-09",
+   "D-60": "2026-12-09",
+   "D-45": "2026-12-24",
+   "preorderStart": "2026-12-27~2027-01-03",
+   "D-30": "2027-01-08",
+   "clientShip": "2027-01-22 (1/23 토요일, 하루 당김)",
+   "shipDeadline": "2027-02-02~02-04",
+   "chuseok": "2027-09-15, D-60 작업일 07-16"
+  },
+  "emoScale": "-2(짜증·불안) ~ +2(만족·안도), 모두 추정",
+  "basisLegend": [
+   "사실",
+   "현장 증언",
+   "업계 관행",
+   "계산",
+   "추정"
+  ],
+  "commonOpportunity": "작년 기록 카드를 납품 3일 뒤 남기고 D-60에 먼저 들고 가기",
+  "source": "research/여정지도_페르소나별.md",
+  "note": "속마음(thought)과 감정 점수는 모두 가상·추정. 세무 관련 칸은 세무 전문가 확인 필요. 2026-11-02: 사용자 지시로 페르소나는 윤재현(G)·정미숙(E) 두 명만 보고에 사용, 모든 연락은 AI 에이전트 자동."
+ },
+ "personas": [
+  {
+   "id": "A",
+   "name": "김정민",
+   "oneLiner": "예산은 전년에 정해지고 감사가 무서운 준정부기관 총무 대리",
+   "profile": "가상·34세·대전 서구 본사 약 250명",
+   "status": "2027 설이 첫 거래 (추정 설정)",
+   "rule": "기관 명의만, 개인 혜택 없음 (권익위 2026-09-03)",
+   "stages": [
+    {
+     "key": "설 준비 시작",
+     "date": "2026-11-09 (D-90)",
+     "doing": "편성된 설 예산·작년 집행 내역 확인",
+     "thought": "작년 업체가 편한데 견적은 두 곳",
+     "emoAsIs": -1,
+     "emoToBe": 0,
+     "touchpoint": "기관 대표 메일",
+     "pain": "새 업체는 공공 서류 양식 모름",
+     "opportunity": "주담당: 공공 서류 목록·견적 일정 메일",
+     "churnSignal": "기관 메일 회신 없음",
+     "metric": "공식 메일 회신률",
+     "phase": null,
+     "moment": false,
+     "basis": "날짜 계산·예산 일정은 기관별 상이·행동 추정"
+    },
+    {
+     "key": "견적 비교",
+     "date": "2026-12-09~12-24",
+     "doing": "2곳 견적, 할인율·지역 업체 확인",
+     "thought": "할인율 최고 아니면 왜 여기냐 물을 텐데",
+     "emoAsIs": -2,
+     "emoToBe": 0,
+     "touchpoint": "공식 견적서 메일",
+     "pain": "2천만 원 경계, 정부권장 상품권 우선",
+     "opportunity": "주담당: 경계 견적 3안+할인율 비교표",
+     "churnSignal": "견적 후 7일 무응답",
+     "metric": "견적→구매 전환율",
+     "phase": null,
+     "moment": true,
+     "basis": "지침 사실(사례)·기회 추정"
+    },
+    {
+     "key": "결재·계약",
+     "date": "2027-01-04~01-08",
+     "doing": "팀장→실장 결재, 수의계약 판단",
+     "thought": "단가 조금만 올라도 2천만 원 넘어요",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "계약 서류 메일·전화",
+     "pain": "과세 상품 경계 약 260~290명",
+     "opportunity": "정산 담당: 계약 서류 당일 회신",
+     "churnSignal": "결재 지연·수량 변경",
+     "metric": "첫 문의~계약 일수",
+     "phase": "결정",
+     "moment": false,
+     "basis": "한도 사실·경계 계산·결재선 추정"
+    },
+    {
+     "key": "납품·배부",
+     "date": "2027-01-15",
+     "doing": "250명 배부, 자필서명 받기",
+     "thought": "서명 세 명 빠졌네, 정산까지 열흘",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "납품 현장",
+     "pain": "서명 누락·파손",
+     "opportunity": "선물상담팀: 부서별 포장+서명 목록 동봉",
+     "churnSignal": "파손·지연 클레임",
+     "metric": "교환·반품률",
+     "phase": null,
+     "moment": false,
+     "basis": "서명 원칙 사실(사례)·날짜 추정"
+    },
+    {
+     "key": "정산",
+     "date": "2027-01-18 (기한 01-25)",
+     "doing": "세금계산서·관리대장 정리",
+     "thought": "서류만 사흘 안에 오면 제일 고마워요",
+     "emoAsIs": -2,
+     "emoToBe": 1,
+     "touchpoint": "증빙 메일",
+     "pain": "관리대장·공개용 요약 직접 작성",
+     "opportunity": "정산 담당: 납품 3일 뒤 공공 증빙 패키지",
+     "churnSignal": "증빙 재요청",
+     "metric": "D+3 증빙 준수율",
+     "phase": null,
+     "moment": true,
+     "basis": "10일 정산 사실(사례)·기회 추정"
+    },
+    {
+     "key": "2028 예산 자료",
+     "date": "2027-03-02~05-31",
+     "doing": "예산 요구서에 품목·단가 근거",
+     "thought": "작년 단가표만 있으면 근거 끝인데",
+     "emoAsIs": 0,
+     "emoToBe": 2,
+     "touchpoint": "기관 공식 메일",
+     "pain": "근거 자료를 직접 만듦",
+     "opportunity": "주담당: 3/2 집행 내역·단가표 발송",
+     "churnSignal": "다른 업체 단가 요청",
+     "metric": "다음 해 견적 요청 비율",
+     "phase": "충성",
+     "moment": true,
+     "basis": "5/31 기한 사실·기관 일정 추정"
+    },
+    {
+     "key": "창립기념품",
+     "date": "2027-04 (가상)",
+     "doing": "직원 기념품, 제한 물품 확인",
+     "thought": "제한 물품 걸릴까 봐 늘 겁나요",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "공식 카탈로그 메일",
+     "pain": "구매 제한 물품",
+     "opportunity": "보조담당: 3/9 일정 확인→카탈로그",
+     "churnSignal": "행사 일정 회신 없음",
+     "metric": "맡긴 행사 수",
+     "phase": null,
+     "moment": false,
+     "basis": "제한 물품 사실·행사 추정"
+    },
+    {
+     "key": "추석 견적",
+     "date": "2027-07-16~08-16",
+     "doing": "다시 2곳 견적, 유지 판단",
+     "thought": "설 때 정산 깔끔했으니 거기로",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "공식 견적서 메일",
+     "pain": "또 비교해야 함",
+     "opportunity": "CRM: 설 그대로+변경점 견적서",
+     "churnSignal": "D-60 지나도 요청 없음",
+     "metric": "같은 행사 재구매율",
+     "phase": "재구매",
+     "moment": false,
+     "basis": "날짜 계산·나머지 추정"
+    },
+    {
+     "key": "담당자 인사",
+     "date": "2027-12~2028-01",
+     "doing": "후임에게 계약·정산 인계",
+     "thought": "후임이 처음부터 다시 찾으면 어쩌지",
+     "emoAsIs": -2,
+     "emoToBe": 1,
+     "touchpoint": "기관 앞 공문",
+     "pain": "이력이 사람 머릿속에만",
+     "opportunity": "주담당: 기관 앞 인수인계 카드",
+     "churnSignal": "처음 보는 담당자",
+     "metric": "교체 후 유지율",
+     "phase": null,
+     "moment": false,
+     "basis": "추정"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-12-09~16",
+     "title": "견적 비교 진입",
+     "why": "할인율·2천만 원 설명 못 하면 바로 빠짐"
+    },
+    {
+     "date": "2027-01-18",
+     "title": "납품 3일 뒤 증빙",
+     "why": "감사 지적이 본인 이름으로 남음"
+    },
+    {
+     "date": "2027-03~05",
+     "title": "2028 예산 자료",
+     "why": "예산에 단가가 들어가면 재구매 확정"
+    }
+   ],
+   "churnStory": "증빙 재요청 뒤 예산 시기 무연락, 할인율 높은 곳으로 예산 편성",
+   "growStory": "1/18 증빙→2/22 결과 보고→3/2 단가표→추석 재구매",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "11/9 공공 서류 목록·견적 일정 (기관 메일)"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/9 2천만 원 경계 견적 3안+할인율표"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/15 납품, 1/18 증빙 패키지+기관 서한"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/22 기관 앞 결과 보고 1장"
+    },
+    {
+     "month": "2027-03",
+     "action": "3/2 집행 단가표, 3/9 행사 일정 확인"
+    },
+    {
+     "month": "2027-04",
+     "action": "창립기념품 공식 카탈로그"
+    },
+    {
+     "month": "2027-05",
+     "action": "예산 요구 기한 전 단가표 갱신 확인"
+    },
+    {
+     "month": "2027-06",
+     "action": "상반기 퇴직 기념품 카탈로그"
+    },
+    {
+     "month": "2027-07",
+     "action": "7/16 추석 견적 (설 그대로+변경점)"
+    },
+    {
+     "month": "2027-08",
+     "action": "8/16 결재 확인, 납품 일정 공지"
+    },
+    {
+     "month": "2027-09",
+     "action": "추석 납품 3일 뒤 증빙 패키지"
+    },
+    {
+     "month": "2027-10",
+     "action": "기관 앞 연간 회고 리포트 (선물 없음)"
+    }
+   ]
+  },
+  {
+   "id": "B",
+   "name": "이서윤",
+   "oneLiner": "직원 반응이 사내 커뮤니티에 바로 뜨는 상장 바이오 매니저",
+   "profile": "가상·33세·대덕특구 약 180명",
+   "status": "2026 연말 거래처·투자자 선물이 첫 거래 (추정 설정)",
+   "rule": "회사 명의 메시지, 공공·의료 거래처는 규정 확인",
+   "stages": [
+    {
+     "key": "연말 선물 탐색",
+     "date": "2026-11-09~11-20",
+     "doing": "거래처·투자자 30~50곳 후보 비교",
+     "thought": "투자자 선물은 어디서 샀는지 보여야",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일·웹 신청서",
+     "pain": "답변 늦으면 플랫폼으로",
+     "opportunity": "주담당: 당일 회신+2단 견적",
+     "churnSignal": "문의 후 회신 없음",
+     "metric": "문의 당일 회신율",
+     "phase": null,
+     "moment": true,
+     "basis": "11월 발주 업계 관행·답변 2~3일 사실"
+    },
+    {
+     "key": "연말 첫 주문",
+     "date": "2026-11-30~12-04",
+     "doing": "팀장→CFO 결재, 대표 명단 확인",
+     "thought": "대표님이 명단 직접 보신대요",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "메일·엑셀 명단",
+     "pain": "주소 입력·카드 사용처 한도",
+     "opportunity": "선물상담팀: 엑셀 일괄 발송·발송 대장",
+     "churnSignal": "배송 오류",
+     "metric": "첫 거래 전환율",
+     "phase": "결정",
+     "moment": false,
+     "basis": "카드 한도 사실·나머지 추정"
+    },
+    {
+     "key": "연말 증빙",
+     "date": "2026-12-17",
+     "doing": "거래처분 적격증빙 정리",
+     "thought": "전표 나눠 주면 재무팀이 안 묻겠네",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "메일",
+     "pain": "상품권 수령 대장 필요",
+     "opportunity": "정산 담당: 분리 전표+지급 대장",
+     "churnSignal": "증빙 재요청",
+     "metric": "증빙 재요청률",
+     "phase": null,
+     "moment": false,
+     "basis": "세무 해설(혜움)·세무 전문가 확인 필요"
+    },
+    {
+     "key": "설 방식 결정",
+     "date": "2026-12-28~2027-01-08",
+     "doing": "직원 선물 플랫폼 vs 백화점",
+     "thought": "180명 주소를 제가 다 모아야 하잖아요",
+     "emoAsIs": -2,
+     "emoToBe": 0,
+     "touchpoint": "대면 미팅",
+     "pain": "주소 취합, 플랫폼은 번호만",
+     "opportunity": "주담당: 전화번호만 선택형 대행안",
+     "churnSignal": "이번엔 카카오로 통보",
+     "metric": "설 직원 선물 전환율",
+     "phase": null,
+     "moment": true,
+     "basis": "플랫폼 기능 사실·대행 가능 여부 미확인"
+    },
+    {
+     "key": "설 직원 선택",
+     "date": "2027-01-13~01-27",
+     "doing": "직원이 고르고 배송지 입력",
+     "thought": "안 고른 사람 재알림까지 해 주면",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "문자 링크 (직원)",
+     "pain": "미입력자·명단 변경",
+     "opportunity": "CRM: 자동 재알림, 기한 뒤 대표 상품",
+     "churnSignal": "선택 완료율 낮음",
+     "metric": "선택 완료율",
+     "phase": "재구매",
+     "moment": false,
+     "basis": "추정 (선택 기한은 우리 대행 설계값, 카카오는 2일)"
+    },
+    {
+     "key": "직원 반응",
+     "date": "2027-02-15",
+     "doing": "사내 메신저·익명 게시판 확인",
+     "thought": "익명 게시판에 뭐라고 올라왔을까",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "메일 요약 1장",
+     "pain": "불만이 공개적으로 퍼짐",
+     "opportunity": "보조담당: 교환·만족 요약 1장",
+     "churnSignal": "교환 다수·불만 글",
+     "metric": "교환·반품률",
+     "phase": null,
+     "moment": true,
+     "basis": "날짜 계산·나머지 추정"
+    },
+    {
+     "key": "창립·근속 포상",
+     "date": "2027-05-03~06",
+     "doing": "근속 포상 구성 다시 짬",
+     "thought": "금값 때문에 포상 바꿔야 해요",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일·카탈로그",
+     "pain": "금 포상 비용 급등",
+     "opportunity": "주담당: 상품권·세트 조합 포상안",
+     "churnSignal": "일정 회신 없음",
+     "metric": "맡긴 행사 수",
+     "phase": null,
+     "moment": false,
+     "basis": "금→현금 전환 사실·창립일 가상"
+    },
+    {
+     "key": "추석",
+     "date": "2027-07-16~08-16",
+     "doing": "설 방식 유지, 할인 비교",
+     "thought": "설 괜찮았으면 바꿀 이유 없지",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "메일",
+     "pain": "플랫폼 27~35% 할인",
+     "opportunity": "CRM: 설 방식 그대로 재주문서",
+     "churnSignal": "첫 문의 14일 지연",
+     "metric": "같은 행사 재구매율",
+     "phase": null,
+     "moment": false,
+     "basis": "할인 사실·나머지 추정"
+    },
+    {
+     "key": "연간 회고",
+     "date": "2027-11-08",
+     "doing": "한 해 정리, 2028 계획",
+     "thought": "괜찮았다는 말을 숫자로 보여 줄 수 있겠다",
+     "emoAsIs": 0,
+     "emoToBe": 2,
+     "touchpoint": "대면 회고 미팅",
+     "pain": "업체가 흩어져 정리 번거로움",
+     "opportunity": "주·보조: 회고 리포트+2028 달력 합의",
+     "churnSignal": "회고 미팅 거절",
+     "metric": "2개 이상 행사 비율",
+     "phase": "충성",
+     "moment": false,
+     "basis": "추정"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-11-09~20",
+     "title": "연말 문의 응답 속도",
+     "why": "먼저 답한 곳이 가져감"
+    },
+    {
+     "date": "2026-12-28~2027-01-08",
+     "title": "설 직원 선물 방식",
+     "why": "부분 고객에 머물지 넘어올지 갈림"
+    },
+    {
+     "date": "2027-02-15",
+     "title": "직원 반응 회신",
+     "why": "성과 보고냐 불만 글이냐"
+    }
+   ],
+   "churnStory": "연말 뒤 무연락, 설 직원 선물은 카카오 선택형으로",
+   "growStory": "12/15 감사→12/17 분리 전표→12/28 선택형 제안→행사 4개",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "11/9 연말 2단 견적, 문의 당일 회신"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/15 감사, 12/17 증빙, 12/28 설 선택형안"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/13 선택 링크, 미선택 재알림"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/15 직원 반응 요약 1장"
+    },
+    {
+     "month": "2027-03",
+     "action": "주총 기념품·웰컴 선물 확인"
+    },
+    {
+     "month": "2027-04",
+     "action": "근로자의 날 직원 선물 안내"
+    },
+    {
+     "month": "2027-05",
+     "action": "5/3 창립 근속 포상 대안"
+    },
+    {
+     "month": "2027-06",
+     "action": "창립일 납품, 3일 뒤 증빙"
+    },
+    {
+     "month": "2027-07",
+     "action": "7/16 추석 재주문서"
+    },
+    {
+     "month": "2027-08",
+     "action": "8/16 결재 확인, 선택 링크"
+    },
+    {
+     "month": "2027-09",
+     "action": "추석 반응 요약"
+    },
+    {
+     "month": "2027-10",
+     "action": "연말 거래처·투자자 명단 갱신 요청"
+    }
+   ]
+  },
+  {
+   "id": "C",
+   "name": "박상철",
+   "oneLiner": "생산직 180명의 '작년보다 못하다'가 제일 무서운 총무과장",
+   "profile": "가상·47세·청주 오창 제조 180명 2교대",
+   "status": "2027 설이 첫 거래 (추정 설정)",
+   "rule": "회사 명의 메시지",
+   "stages": [
+    {
+     "key": "설 준비 시작",
+     "date": "2026-11-09 (D-90)",
+     "doing": "작년 자료 찾기, 상여금 vs 선물",
+     "thought": "작년 견적서가 메일함 어디 있더라",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "전화·메일",
+     "pain": "자료 찾기, 체감경기 악화 57.7%",
+     "opportunity": "주담당: 공장 명단으로 전화+설 일정",
+     "churnSignal": "연락 회신 없음",
+     "metric": "D-90 연락 도달률",
+     "phase": null,
+     "moment": false,
+     "basis": "업무 순서 업계 관행·명단 사실"
+    },
+    {
+     "key": "예산 축소 통보",
+     "date": "2026-12-07~12-11 (12월 둘째 주)",
+     "doing": "공장장 '10% 줄여', 대안 찾기",
+     "thought": "같은 돈으로 더 좋아 보이는 걸",
+     "emoAsIs": -2,
+     "emoToBe": 1,
+     "touchpoint": "메일 제안서",
+     "pain": "상여금도 줄어드는 추세",
+     "opportunity": "주담당: 작년 그대로+±10% 3안 당일",
+     "churnSignal": "수량·예산 축소 통보",
+     "metric": "D-60 제안 응답률",
+     "phase": null,
+     "moment": true,
+     "basis": "상여금 사실·장면 추정"
+    },
+    {
+     "key": "견적 비교",
+     "date": "2026-12-14~12-24",
+     "doing": "2~3곳 동시 문의, 샘플 요청",
+     "thought": "이마트 사전예약은 50%라던데",
+     "emoAsIs": -2,
+     "emoToBe": 0,
+     "touchpoint": "메일·전화·샘플",
+     "pain": "이마트 최대 50%, 플랫폼 27~35%",
+     "opportunity": "주담당: 당일 견적+총비용 비교표",
+     "churnSignal": "견적 후 7일 무응답",
+     "metric": "견적→구매 전환율",
+     "phase": null,
+     "moment": false,
+     "basis": "할인 사실·동시 문의 업계 관행"
+    },
+    {
+     "key": "품의·결재",
+     "date": "2027-01-04~01-08",
+     "doing": "수량 취합→품의→공장장→대표",
+     "thought": "'작년보다 낫다'는 말만 들으면 돼요",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "품의 첨부 양식",
+     "pain": "결재 지연",
+     "opportunity": "보조담당: 품의 첨부 3안 비교 1장",
+     "churnSignal": "결재 지연",
+     "metric": "첫 문의~결제 기간",
+     "phase": "결정",
+     "moment": false,
+     "basis": "업무 순서 업계 관행·결재선 추정"
+    },
+    {
+     "key": "교대조 배분·납품",
+     "date": "2027-01-28 (마감 02-02~04)",
+     "doing": "2교대 현장에 빠짐없이 배분",
+     "thought": "무거운 세트 들고 퇴근 싫어하는데",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "공장 일괄 납품",
+     "pain": "교대조 배분·퇴근길 부담",
+     "opportunity": "선물상담팀: 교대조별 포장·라벨",
+     "churnSignal": "배송 지연 클레임",
+     "metric": "배송 클레임 건수",
+     "phase": null,
+     "moment": false,
+     "basis": "마감 계산·배분 추정"
+    },
+    {
+     "key": "직원 반응",
+     "date": "2027-02-15",
+     "doing": "식당·현장 반응 듣기",
+     "thought": "작년보다 못하네 소리만 안 나오면",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "메일 요약·전화",
+     "pain": "불만이 과장에게만 몰림",
+     "opportunity": "보조담당: 반응 요약+2/22 결과 리포트",
+     "churnSignal": "교환·불만 다수",
+     "metric": "교환·반품률",
+     "phase": null,
+     "moment": true,
+     "basis": "추정"
+    },
+    {
+     "key": "근로자의 날",
+     "date": "2027-04-01~05-01",
+     "doing": "180명 소액 기념품",
+     "thought": "명절 말고도 챙긴다는 느낌은 줘야죠",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일",
+     "pain": "품목 아이디어 없음",
+     "opportunity": "보조담당: 3/9 달력 확인→4/1 제안",
+     "churnSignal": "제안 무응답",
+     "metric": "맡긴 행사 수",
+     "phase": null,
+     "moment": false,
+     "basis": "계기 사실(롯데 신청서)·나머지 추정"
+    },
+    {
+     "key": "추석 재주문",
+     "date": "2027-07-16~08-16",
+     "doing": "설 업체 유지, 마트와 비교",
+     "thought": "정리해 주면 그대로 결재 올립니다",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "메일 재주문서",
+     "pain": "또 비교해야 함",
+     "opportunity": "CRM: 7/16 설 그대로 재주문서",
+     "churnSignal": "첫 문의 지연·행사 누락",
+     "metric": "같은 행사 재구매율",
+     "phase": "재구매",
+     "moment": true,
+     "basis": "날짜 계산·나머지 추정"
+    },
+    {
+     "key": "창립 포상·연말 답례",
+     "date": "2027-10~12",
+     "doing": "근속 포상, 협력사 답례",
+     "thought": "금 열쇠는 이제 너무 비싸요",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일·대면",
+     "pain": "금값 급등, 받는 쪽 수령 규정",
+     "opportunity": "주담당: 포상 대안+협력사 답례 묶음",
+     "churnSignal": "답례 반송",
+     "metric": "2개 이상 행사 비율",
+     "phase": "충성",
+     "moment": false,
+     "basis": "금값 사실·수령 규정은 회사별 확인"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-12-07~11",
+     "title": "예산 10% 축소 직후",
+     "why": "더 싼 곳부터 찾는 순간"
+    },
+    {
+     "date": "2027-02-15",
+     "title": "직원 반응",
+     "why": "불만이 과장 한 명에게 몰림"
+    },
+    {
+     "date": "2027-07-16",
+     "title": "추석 D-60 재주문서",
+     "why": "먼저 가면 그대로 결재"
+    }
+   ],
+   "churnStory": "교환 늦고 요약 없음, 추석 무연락, 이마트 50%로",
+   "growStory": "1/29 감사→2/15 요약→3/9 달력→근로자의 날·추석·포상",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "11/9 공장 명단 전화+설 일정 메일"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/9 3안 제안서, 당일 견적·샘플"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/4 품의 첨부 1장, 1/28 공장 납품"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/1 분리 증빙, 2/15 요약, 2/22 리포트"
+    },
+    {
+     "month": "2027-03",
+     "action": "3/9 연간 행사 달력 확인"
+    },
+    {
+     "month": "2027-04",
+     "action": "4/1 근로자의 날 기념품 제안"
+    },
+    {
+     "month": "2027-05",
+     "action": "근로자의 날 납품 뒤 증빙"
+    },
+    {
+     "month": "2027-06",
+     "action": "하계휴가 전 소액 선물 안내"
+    },
+    {
+     "month": "2027-07",
+     "action": "7/16 추석 재주문서"
+    },
+    {
+     "month": "2027-08",
+     "action": "8/16 결재 확인, 배분 일정"
+    },
+    {
+     "month": "2027-09",
+     "action": "추석 반응 요약, 근속 포상 대안"
+    },
+    {
+     "month": "2027-10",
+     "action": "창립 납품, 협력사 답례 명단 요청"
+    }
+   ]
+  },
+  {
+   "id": "E",
+   "name": "정미숙",
+   "oneLiner": "대표 한마디에 혼자 다 처리하는 12명 회사 경리 실장",
+   "profile": "가상·51세·대전 대덕구 12명",
+   "status": "3년째 반복 구매, 법인 대접은 처음",
+   "rule": "AI 에이전트가 담당자 이름으로 보내는 짧은 문자, 전부 자동",
+   "stages": [
+    {
+     "key": "재주문서 도착",
+     "date": "2026-12-24 (D-45)",
+     "doing": "AS-IS 연락 없음, 연말 업무 중",
+     "thought": "사장님이 말하면 그때 하지",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "문자 (CRM)",
+     "pain": "작년 주문 내역 찾기 어려움",
+     "opportunity": "AI 정기 알림: 작년 그대로 주문 버튼 문자",
+     "churnSignal": "재주문서 미열람",
+     "metric": "재주문서 열람률",
+     "phase": null,
+     "moment": true,
+     "basis": "날짜 계산·나머지 추정"
+    },
+    {
+     "key": "대표 지시",
+     "date": "2027-01-11 (월) 아침",
+     "doing": "대표 '작년처럼' 하고 출장",
+     "thought": "작년에 몇 개 샀더라",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "대표 대면 (우리 없음)",
+     "pain": "시작이 늦고 혼자 처리",
+     "opportunity": "AI 제안: 재주문서+대표용 추천 3개 카드",
+     "churnSignal": "첫 문의 14일 이상 지연",
+     "metric": "첫 문의 시점 변화",
+     "phase": "결정",
+     "moment": true,
+     "basis": "대표 결정 업계 관행·장면 추정"
+    },
+    {
+     "key": "가격 광고",
+     "date": "2027-01-11",
+     "doing": "플랫폼 할인 광고를 봄",
+     "thought": "솔직히 인터넷이 더 싸요",
+     "emoAsIs": -2,
+     "emoToBe": 0,
+     "touchpoint": "플랫폼 광고 (경쟁)",
+     "pain": "플랫폼 27~35% 할인",
+     "opportunity": "AI 제안: 재주문서에 같은 예산 대안 표시",
+     "churnSignal": "단가 비교 문의",
+     "metric": "가격 문의 후 구매율",
+     "phase": null,
+     "moment": false,
+     "basis": "할인·고객 77% 사실"
+    },
+    {
+     "key": "문자 링크 주문",
+     "date": "2027-01-12~01-13",
+     "doing": "문자 링크로 작년 목록 확인 후 주문",
+     "thought": "그대로 불러 주시면 카드만 긁을게요",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "문자 링크",
+     "pain": "상담 기준 미만이라 대기",
+     "opportunity": "AI 주문·배송: 문자 링크로 10분 주문, 주소록 자동 저장",
+     "churnSignal": "통화 대기·재통화",
+     "metric": "통화 1회 완결률",
+     "phase": null,
+     "moment": false,
+     "basis": "상담 기준 사실·나머지 추정"
+    },
+    {
+     "key": "발송·수령",
+     "date": "2027-01-22 / 02-02",
+     "doing": "거래처 15곳 발송, 직원분 픽업",
+     "thought": "거래처 주소 틀린 데 없겠지",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "택배·매장 픽업",
+     "pain": "주소 오류",
+     "opportunity": "AI 주문·배송: 발송 완료 문자+목록",
+     "churnSignal": "주소 오류 클레임",
+     "metric": "배송 클레임 건수",
+     "phase": null,
+     "moment": false,
+     "basis": "2주 전 발송 업계 관행"
+    },
+    {
+     "key": "정산 정리",
+     "date": "2027-02-10",
+     "doing": "전표·원천징수·업무추진비 정리",
+     "thought": "상품권 누구 줬는지 소명해야 하는데",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "문자·메일 정리본",
+     "pain": "지급 대장 없으면 대표자 상여",
+     "opportunity": "AI 정산: 한 장 정리본+지급 대장",
+     "churnSignal": "증빙 재요청",
+     "metric": "증빙 재요청률",
+     "phase": null,
+     "moment": false,
+     "basis": "정산 서류 정리 (가상 설계)"
+    },
+    {
+     "key": "추석 재주문",
+     "date": "2027-08-02~08-16",
+     "doing": "대표 '추석도 똑같이'",
+     "thought": "문자 오면 버튼만 누르면 되겠네",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "문자 (CRM)",
+     "pain": "다시 찾는 번거로움",
+     "opportunity": "AI 정기 알림: 8/2 추석 재주문 문자",
+     "churnSignal": "추석 문의 없음",
+     "metric": "재주문서 사용률",
+     "phase": "재구매",
+     "moment": false,
+     "basis": "날짜 계산·나머지 추정"
+    },
+    {
+     "key": "연말 답례·소개",
+     "date": "2027-11-15~12",
+     "doing": "연말 거래처 답례, 지인에 이야기",
+     "thought": "사장님이 백화점 포장을 좋아하셔서",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "문자·카드",
+     "pain": "대표 취향 변화",
+     "opportunity": "AI 제안: 대표용 연말 답례 추천 3개 카드",
+     "churnSignal": "답례 무응답",
+     "metric": "소개 신규 법인 수",
+     "phase": "충성",
+     "moment": false,
+     "basis": "추정"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-12-24",
+     "title": "재주문서가 먼저 왔나",
+     "why": "대표 지시 전에 있으면 비교 안 함"
+    },
+    {
+     "date": "2027-01-11",
+     "title": "대표 지시+할인 광고",
+     "why": "기록 없으면 광고 속 플랫폼을 엶"
+    }
+   ],
+   "churnStory": "3년째인데 무연락, 20분 대기·주소 재입력, 기프티쇼 가입",
+   "growStory": "12/24 문자→1/12 10분 주문→2/10 정리본→연말 답례·소개",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "거래처 주소록 갱신 요청 문자 1회"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/24 설 재주문 문자 (그대로 버튼)"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/12 문자 링크 주문, 1/22 발송 문자"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/10 정산 정리본, 2/15 감사 문자"
+    },
+    {
+     "month": "2027-03",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-04",
+     "action": "근로자의 날 안내 문자 (선택)"
+    },
+    {
+     "month": "2027-05",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-06",
+     "action": "창립일·생일 등록 확인 문자"
+    },
+    {
+     "month": "2027-07",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-08",
+     "action": "8/2 추석 재주문 문자"
+    },
+    {
+     "month": "2027-09",
+     "action": "발송 완료 문자, 정산 정리본"
+    },
+    {
+     "month": "2027-10",
+     "action": "연락 없음 (11/15 연말 답례 카드 준비)"
+    }
+   ]
+  },
+  {
+   "id": "G",
+   "name": "윤재현",
+   "oneLiner": "회원사 앞에서 단체 얼굴을 세워야 하는 경제단체 과장",
+   "profile": "가상·41세·대전 중구 사무국 약 30명",
+   "status": "이미 세 갈래를 백화점에서 삼 (현장 증언 바탕)",
+   "rule": "단체 명의, 연락은 모두 AI 에이전트 자동",
+   "stages": [
+    {
+     "key": "연간 행사 확인",
+     "date": "2026-11-09 (D-90)",
+     "doing": "신년회·설 직원·회원사 감사 정리",
+     "thought": "신년회랑 설이 또 같은 주네",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "단체 공식 메일",
+     "pain": "갈래별 담당 부서가 다름",
+     "opportunity": "AI 제안: 세 갈래 연간 묶음 일정표",
+     "churnSignal": "회신 없음",
+     "metric": "공식 메일 회신률",
+     "phase": null,
+     "moment": false,
+     "basis": "세 갈래 현장 증언·나머지 추정"
+    },
+    {
+     "key": "세 갈래 견적 충돌",
+     "date": "2026-12-01~12-04",
+     "doing": "부서별 다른 업체 견적 발견",
+     "thought": "한 번에 받아 주는 데가 제일 좋죠",
+     "emoAsIs": -2,
+     "emoToBe": 1,
+     "touchpoint": "통합 견적서 메일",
+     "pain": "갈래별 다른 업체 단가",
+     "opportunity": "AI 제안: 세 갈래 통합 견적서",
+     "churnSignal": "다른 업체 견적 존재",
+     "metric": "단체당 묶은 갈래 수",
+     "phase": null,
+     "moment": true,
+     "basis": "추정 (페르소나 장면)"
+    },
+    {
+     "key": "묶음 결재",
+     "date": "2026-12-14~12-18",
+     "doing": "사무국장→상근부회장 결재",
+     "thought": "결산 때 지역 업체라고 설명해야",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "결재 첨부 메일",
+     "pain": "회비 집행 설명 부담",
+     "opportunity": "AI 정산: 지역 업체 구매 확인서 자동 작성",
+     "churnSignal": "결재 지연",
+     "metric": "첫 문의~결제 기간",
+     "phase": "결정",
+     "moment": false,
+     "basis": "지역 업체 인정 현장 증언"
+    },
+    {
+     "key": "신년인사회 기념품",
+     "date": "2027-01-05",
+     "doing": "기념품 200~300개 납품",
+     "thought": "당일 30명 더 오면 어쩌지",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "행사장 납품",
+     "pain": "참석자 수 변동",
+     "opportunity": "AI 주문·배송: D-3 변경 마감+여분 반품 안내",
+     "churnSignal": "수량 변경 늦음",
+     "metric": "수량 변경 대응 건수",
+     "phase": null,
+     "moment": false,
+     "basis": "3만 원 이하 광고선전비 사실"
+    },
+    {
+     "key": "회원사·기관 감사 발송",
+     "date": "2027-01-18~01-22",
+     "doing": "회원사·기관 명단 분리 발송",
+     "thought": "시청 쪽은 금액 넘으면 안 되고",
+     "emoAsIs": -2,
+     "emoToBe": 1,
+     "touchpoint": "택배·직접 배송",
+     "pain": "받는 곳 100곳 주소·구성 정리",
+     "opportunity": "AI 주문·배송: 명단 받아 받는 곳별 자동 발송",
+     "churnSignal": "발송 누락·오배송 문의",
+     "metric": "발송 오류 0건",
+     "phase": null,
+     "moment": true,
+     "basis": "가액 규칙 사실·2주 전 업계 관행"
+    },
+    {
+     "key": "반응·정산",
+     "date": "2027-02-15 / 02-22",
+     "doing": "회원사 반응, 계정별 정산",
+     "thought": "'선물 좋더라' 하면 된 거예요",
+     "emoAsIs": 0,
+     "emoToBe": 2,
+     "touchpoint": "메일 요약·정산 묶음",
+     "pain": "받는 사람별 수령 확인",
+     "opportunity": "AI 정산: 수령 현황+계정별 정산",
+     "churnSignal": "회원사 불만",
+     "metric": "반응 요약 전달률",
+     "phase": null,
+     "moment": false,
+     "basis": "추정"
+    },
+    {
+     "key": "총회·상공의 날",
+     "date": "2027-03",
+     "doing": "결산 보고, 포상 기념품",
+     "thought": "업체 선정 이유 바로 답할 수 있게",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일 확인서",
+     "pain": "회원사 납품 업체와 형평",
+     "opportunity": "AI 제안: 3/2 확인서 갱신+포상 제안",
+     "churnSignal": "지역 업체 인정 흔들림",
+     "metric": "맡긴 행사 수",
+     "phase": "재구매",
+     "moment": false,
+     "basis": "상공의 날 사실·지역 업체 현장 증언"
+    },
+    {
+     "key": "추석 회원사 감사",
+     "date": "2027-08-16~08-31",
+     "doing": "추석 직원+회원사 감사",
+     "thought": "명단만 주면 나눠 주겠지",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "메일",
+     "pain": "담당 교체 시 명단 분실",
+     "opportunity": "AI 정기 알림: 7/16 '설 그대로' 추석 제안+명단 갱신",
+     "churnSignal": "사무국 담당 교체",
+     "metric": "같은 행사 재구매율",
+     "phase": null,
+     "moment": false,
+     "basis": "특례 존재 사실·나머지 추정"
+    },
+    {
+     "key": "송년회·회원사 소개",
+     "date": "2027-11~12",
+     "doing": "송년회·시상 기념품",
+     "thought": "회원사가 어디서 샀냐고 묻네",
+     "emoAsIs": 0,
+     "emoToBe": 2,
+     "touchpoint": "행사장·단체 메일",
+     "pain": "추천은 형평 문제",
+     "opportunity": "AI 안내: 단체 서한, 문의 경로 기록",
+     "churnSignal": "송년회 다른 업체",
+     "metric": "소개 신규 법인 수",
+     "phase": "충성",
+     "moment": false,
+     "basis": "12월 시상 사실·나머지 추정"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-12-01~04",
+     "title": "세 갈래 견적 충돌",
+     "why": "통합 견적 없으면 세 업체 중 하나"
+    },
+    {
+     "date": "2027-01-22",
+     "title": "회원사·기관 감사 발송",
+     "why": "사고 나면 단체 평판에 바로 남음"
+    },
+    {
+     "date": "2027-01 (추정)",
+     "title": "사무국 정기 인사",
+     "why": "명단이 흩어지면 처음부터 다시"
+    }
+   ],
+   "churnStory": "담당 양쪽 교체·인계 없음, 회원사 감사가 신규 특판으로",
+   "growStory": "신년회 납품→1/8 서한·안내→1/22 회원사 발송→총회 확인서",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "11/9 세 갈래 연간 일정표 (단체 메일)"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/1 통합 견적, 12/14 지역 업체 확인서"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/5 신년회 납품, 1/22 회원사 발송"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/15 수령 현황, 2/22 계정별 정산"
+    },
+    {
+     "month": "2027-03",
+     "action": "3/2 연간 구매 확인서, 상공의 날"
+    },
+    {
+     "month": "2027-04",
+     "action": "회원사 교류회·포럼 일정 확인"
+    },
+    {
+     "month": "2027-05",
+     "action": "포럼 기념품 (3만 원 이하 구성)"
+    },
+    {
+     "month": "2027-06",
+     "action": "창립기념 기념품·감사패 연결"
+    },
+    {
+     "month": "2027-07",
+     "action": "7/16 추석 제안+명단 갱신 요청"
+    },
+    {
+     "month": "2027-08",
+     "action": "8/16 구성 확정"
+    },
+    {
+     "month": "2027-09",
+     "action": "8/31 회원사 감사 발송, 9월 수령 현황"
+    },
+    {
+     "month": "2027-10",
+     "action": "송년회·시상 기념품 일정 확인"
+    }
+   ]
+  },
+  {
+   "id": "N",
+   "name": "강민호",
+   "oneLiner": "백화점에서 선물을 사 본 적 없는 60명 제조사 총무 대리",
+   "profile": "가상·38세·대전 대덕구 부품 제조 60명·총무 4년차",
+   "status": "아직 거래 없음 (상의 회원사)",
+   "rule": "회사 명의, 연락은 모두 AI 에이전트 자동",
+   "stages": [
+    {
+     "key": "첫 제안 도착",
+     "date": "2026-11-16",
+     "doing": "상의 안내 메일과 문자로 \"비슷한 60명 제조사 설 선물 3안\"을 받음",
+     "thought": "백화점은 비싸지 않나?",
+     "emoAsIs": -1,
+     "emoToBe": 0,
+     "touchpoint": "상의 안내 메일·문자",
+     "pain": "백화점은 비싸다는 생각, 연락 온 적 없음",
+     "opportunity": "AI 제안: 같은 규모 회사들이 고른 설 선물 3안(5만·7만·10만 원)",
+     "churnSignal": "메일 미열람",
+     "metric": "첫 제안 열람·회신율",
+     "phase": "결정",
+     "moment": true,
+     "basis": "추정"
+    },
+    {
+     "key": "견적 비교",
+     "date": "2026-12-07~12-11",
+     "doing": "마트 사전예약, 카카오 선물하기, 백화점 견적을 나란히 비교",
+     "thought": "포장하고 배송까지 해 주면 백화점도 괜찮네",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "메일·전화",
+     "pain": "세 곳 견적을 표로 정리하는 데 반나절",
+     "opportunity": "AI 제안: 마트 사전예약가와 나란히 놓은 비교표 + 배송 포함 견적",
+     "churnSignal": "마트 사전예약 결제",
+     "metric": "견적 요청 전환율",
+     "phase": "결정",
+     "moment": true,
+     "basis": "추정"
+    },
+    {
+     "key": "사장 결재",
+     "date": "2026-12-21",
+     "doing": "7만 원대 안으로 결재 올림",
+     "thought": "사장님이 올해는 좀 괜찮은 걸로 하라고 하셨으니",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "결재 서류",
+     "pain": "결재용 견적서 양식 맞추기",
+     "opportunity": "AI 안내: 결재용 한 장 견적서 자동 작성",
+     "churnSignal": "결재 보류",
+     "metric": "결재 통과율",
+     "phase": "결정",
+     "moment": false,
+     "basis": "추정"
+    },
+    {
+     "key": "첫 납품",
+     "date": "2027-01-25",
+     "doing": "60명분 공장 일괄 납품",
+     "thought": "빠진 사람 없이 오면 된다",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "납품·문자",
+     "pain": "수량 확인과 배분",
+     "opportunity": "AI 주문·배송: 납품 일정·수령 확인 문자",
+     "churnSignal": "누락·지연 문의",
+     "metric": "납품 오류 0건",
+     "phase": null,
+     "moment": false,
+     "basis": "추정"
+    },
+    {
+     "key": "정산·반응",
+     "date": "2027-02-10",
+     "doing": "세금계산서 정리, 직원 반응 확인",
+     "thought": "이번 건 괜찮았다고 해야 다음에도 편하지",
+     "emoAsIs": 0,
+     "emoToBe": 2,
+     "touchpoint": "문자",
+     "pain": "정산 서류 모으기, 반응 확인 수단 없음",
+     "opportunity": "AI 정산: 정산 정리본 + 직원 반응 1문항 문자",
+     "churnSignal": "반응 미회수",
+     "metric": "반응 회수율",
+     "phase": null,
+     "moment": false,
+     "basis": "추정"
+    },
+    {
+     "key": "작년 기록 카드",
+     "date": "2027-02-15",
+     "doing": "받은 기록 카드를 파일로 보관",
+     "thought": "추석 때 이거 그대로 쓰면 되겠다",
+     "emoAsIs": -1,
+     "emoToBe": 1,
+     "touchpoint": "문자·메일",
+     "pain": "작년 자료를 따로 정리해야 함",
+     "opportunity": "AI 정기 알림: 작년 기록 카드 저장, 추석 일정 예약",
+     "churnSignal": "카드 미열람",
+     "metric": "카드 열람률",
+     "phase": null,
+     "moment": false,
+     "basis": "추정"
+    },
+    {
+     "key": "추석 재주문",
+     "date": "2027-07-30",
+     "doing": "\"설 그대로 + 바뀐 점\" 재주문서로 바로 결재",
+     "thought": "비교 안 해도 되니 편하다",
+     "emoAsIs": -1,
+     "emoToBe": 2,
+     "touchpoint": "문자",
+     "pain": "다시 견적 비교하는 수고",
+     "opportunity": "AI 정기 알림: '설 그대로 + 바뀐 점' 추석 재주문서",
+     "churnSignal": "마트 사전예약 재검토",
+     "metric": "추석 재구매율",
+     "phase": "재구매",
+     "moment": true,
+     "basis": "추정"
+    },
+    {
+     "key": "창립 기념품",
+     "date": "2027-10-12",
+     "doing": "창립기념 기념품도 같은 곳에 문의",
+     "thought": "선물 하던 데서 기념품도 하면 되겠네",
+     "emoAsIs": 0,
+     "emoToBe": 1,
+     "touchpoint": "메일",
+     "pain": "기념품 업체를 따로 찾기",
+     "opportunity": "AI 제안: 창립기념 기념품 3안",
+     "churnSignal": "타 업체 문의",
+     "metric": "법인당 맡긴 행사 수",
+     "phase": "충성",
+     "moment": false,
+     "basis": "추정"
+    }
+   ],
+   "moments": [
+    {
+     "date": "2026-11-16",
+     "title": "첫 제안을 열어 보는가",
+     "why": "안 열면 올해도 마트 사전예약"
+    },
+    {
+     "date": "2026-12-07~11",
+     "title": "세 곳 비교",
+     "why": "배송 포함 비교표가 있으면 백화점이 남음"
+    },
+    {
+     "date": "2027-07-30",
+     "title": "추석 재주문",
+     "why": "두 번째 주문이 단골의 시작"
+    }
+   ],
+   "churnStory": "백화점은 비싸다 → 연락 없음 → 올해도 마트 사전예약",
+   "growStory": "11/16 첫 제안 → 12/21 결재 → 2/15 기록 카드 → 추석 재주문 → 창립 기념품",
+   "calendar": [
+    {
+     "month": "2026-11",
+     "action": "11/16 같은 규모 회사 설 선물 3안"
+    },
+    {
+     "month": "2026-12",
+     "action": "12/7 비교표·배송 포함 견적, 12/21 결재용 견적서"
+    },
+    {
+     "month": "2027-01",
+     "action": "1/25 납품·수령 확인"
+    },
+    {
+     "month": "2027-02",
+     "action": "2/10 정산 정리본·반응 1문항, 2/15 기록 카드"
+    },
+    {
+     "month": "2027-03",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-04",
+     "action": "근로자의 날 안내 (선택)"
+    },
+    {
+     "month": "2027-05",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-06",
+     "action": "연락 없음"
+    },
+    {
+     "month": "2027-07",
+     "action": "7/30 추석 재주문서"
+    },
+    {
+     "month": "2027-08",
+     "action": "추석 납품·수령 확인"
+    },
+    {
+     "month": "2027-09",
+     "action": "추석 정산 정리본"
+    },
+    {
+     "month": "2027-10",
+     "action": "10/12 창립 기념품 3안"
+    }
+   ]
+  }
+ ]
+};
+var P = {
+ C:{nm:"박상철",ini:"박",badge:["지금 공략",true],role:"산단 제조 총무과장",one:"생산직 180명의 \"작년보다 못하다\"가 제일 무서운 총무과장",
+   scene:"12월 둘째 주, 공장장이 \"설 예산 10% 줄여\". 작년 견적서를 찾느라 메일함을 30분째 뒤진다.",
+   say:"작년에 뭐 했는지 먼저 정리해서 보내 주면, 그대로 결재 올립니다.",
+   prof:"47세 · 16년차 · 청주 오창 제조 180명 2교대",
+   cal:[["1월 설",1],["5/1 근로자의 날",0],["8월 추석",0],["10월 창립 포상",0],["12월 거래처 답례",0]],
+   who:["박상철","공장장","대표"], fear:"식당에서 들리는 \"올해 선물 작년보다 못하네\". 비교 대상은 대형마트 사전예약",
+   give:["12/9 '작년 그대로 + 예산 −10%·동일·+10%' 3안을 결재 양식 그대로","교대조별 배분 포장·라벨, 공장 일괄 납품"], rule:"회사 명의",
+   em:null, leave:["예산 축소 때 더 싼 곳 견적","현장 배분이 번거로움","직원 불만이 과장에게만 몰림"], stay:["같은 예산으로 구성 바꾼 대안","교대조별 묶음 포장","설 뒤 반응 요약 1장"],
+   ltv:"180명 회사 기준 5년 매출 약 2,762만 원 (1,130만~6,706만) · 시나리오", hl:"박상철의 1년은 <span class=red>12월 둘째 주</span>에 갈립니다."},
+ G:{nm:"윤재현",ini:"윤",badge:["지금 공략",true],role:"경제단체 사무국 과장",one:"회원사 앞에서 단체 얼굴을 세워야 하는 경제단체 과장",
+   scene:"12월 초, 신년회 기념품 300개와 회원사 감사 100곳이 같은 주. 부서마다 다른 업체 견적을 받아 둔 걸 결재 직전에 안다.",
+   say:"명단 주면 받는 분 구분해서 나눠 줄 수 있어요?",
+   prof:"41세 · 11년차 · 대전 중구 사무국 약 30명",
+   cal:[["1월 신년회·설",1],["3월 총회·상공의 날",0],["8~9월 추석",0],["12월 송년회",0]],
+   who:["윤재현","사무국장","상근부회장"], fear:"부서마다 받은 다른 업체 견적이 결재 직전에 부딪히는 것. 회원사 앞 단체 평판",
+   give:["행사 기념품·직원 선물·회원사 감사 세 갈래를 연간 묶음으로","명단만 주면 받는 곳별로 나눠 자동 발송 + 결산용 지역 업체 구매 확인서 자동 작성"], rule:"단체 명의, 연락은 모두 AI 에이전트",
+   em:"대전상공회의소는 행사·직원 선물·회원사 감사 선물을 백화점에서 샀고, 백화점은 지역 업체로 인정됐습니다.",
+   leave:["지역 업체 인정이 흔들림","담당 교체 후 명단 분실","회원사 감사 발송 누락·오배송"], stay:["지역 업체로 인정된 거래 이력","명단·받는 사람 구분 저장","세 갈래 연간 묶음 일정"],
+   ltv:"5년 이익 약 178만 원 (12만~959만), 매출로는 약 2,175만 원 · 시나리오, 단체 수 가정", hl:"윤재현은 <span class=red>12월 첫 주</span>, 세 갈래 견적이 부딪힐 때 갈립니다."},
+ A:{nm:"김정민",ini:"김",badge:["준비 후 공략",false],role:"준정부기관 총무 대리",one:"예산은 전년에 정해지고 감사가 무서운 공공기관 총무 대리",
+   scene:"1월 셋째 주, 납품 다음 날. 수령 확인 목록에서 이름 세 개가 빠졌다. 정산 마감까지 7일.",
+   say:"저한테 따로 챙겨 주시는 건 절대 안 됩니다. 정산 서류를 사흘 안에만 주시면 그게 제일 고마워요.",
+   prof:"34세 · 7년차 · 대전 서구 본사 약 250명",
+   cal:[["1월 설 납품",0],["2월 정산(10일)",0],["3~5월 다음 해 예산 자료",1],["4월 창립",0],["8월 추석",0]],
+   who:["김정민","총무팀장","경영지원실장"], fear:"증빙 재요청 = 내 이름으로 남는 감사 지적. 2천만 원을 넘으면 절차가 바뀜",
+   give:["납품 3일 뒤 공공 증빙 패키지","3월 작년 집행 단가표 (기관 공식 메일)"], rule:"개인 혜택 0, 기관 명의만",
+   em:null, leave:["증빙 재요청·누락","온누리상품권 비중 확대","담당자 교체로 이력 끊김"], stay:["납품 3일 뒤 증빙 패키지","지역 생산·중소기업 제조 표시 상품","예산 시기의 작년 단가표"],
+   ltv:"고객군 대표(300명) 5년 매출 약 5,749만 원 (941만~2억 2,336만) · 시나리오, 1인 예산 근거 없음", hl:"김정민에게는 <span class=red>납품 3일 뒤 서류</span>가 선물입니다."},
+ B:{nm:"이서윤",ini:"이",badge:["선별 공략",false],role:"상장 바이오 경영지원 매니저",one:"직원 반응이 사내 커뮤니티에 바로 뜨는 상장 바이오 매니저",
+   scene:"팀 메신저에 \"작년 정육 세트 반은 냉동실에 그대로\". 올해는 직원이 직접 고르게 하자고 말한다.",
+   say:"180명 주소를 제가 다 모아야 하잖아요.",
+   prof:"33세 · 6년차 · 대덕특구 약 180명",
+   cal:[["11월 연말 거래처·투자자",1],["1월 설 직원",0],["5월 창립·근속",0],["8월 추석",0],["11월 연간 회고",0]],
+   who:["이서윤","팀장","CFO (투자자 명단은 대표)"], fear:"익명 게시판 반응",
+   give:["'전화번호만 주세요' 선택형 발송 대행","거래처·투자자용은 백화점 포장으로 역할 분담"], rule:"회사 명의, 공공·의료 거래처는 규정 확인",
+   em:"진짜 경쟁자는 다른 백화점이 아니라 카카오 선물하기 같은 플랫폼입니다. 받는 사람이 직접 고르고 주소를 넣습니다.",
+   leave:["주소 취합·개별 배송을 담당자가 함","플랫폼보다 작은 할인","직원 반응을 알 수 없음"], stay:["명단만 주면 우리가 배송지 받음","직원용·거래처용 역할 분담","반응 요약 먼저 보냄"],
+   ltv:"상장사 180명 기준 5년 매출 약 3,450만 원 (1,129만~8,041만) · 시나리오", hl:"이서윤의 진짜 경쟁자는 <span class=red>카카오 선물하기</span>입니다."},
+ E:{nm:"정미숙",ini:"정",badge:["자동화로 지키기",false],role:"12명 회사 경리 실장",one:"대표 한마디에 혼자 다 처리하는 12명 회사 경리 실장",
+   scene:"1월 둘째 주 월요일, 대표가 \"작년처럼 해요\" 하고 출장. 카드 명세서를 뒤지다 휴대폰에 뜬 할인 광고를 본다.",
+   say:"솔직히 인터넷이 더 싸요. 그래도 사장님이 백화점 포장을 좋아하셔서 오는 거예요.",
+   prof:"51세 · 12년차 · 대전 대덕구 12명",
+   cal:[["1월 설",1],["8월 추석",0],["12월 연말 답례",0]],
+   who:["대표 한 명 결정","정미숙 혼자 실행"], fear:"하루 안에 끝내야 하는데 주소 다시 불러 주기, 매장 대기",
+   give:["12/24 '작년 그대로' 원클릭 재주문 문자"], rule:"AI 에이전트가 담당자 이름으로 보내는 짧은 문자, 전부 자동",
+   em:"3년째 단골이지만, 법인 대접을 받은 적은 한 번도 없습니다.",
+   leave:["작은 고객이라 안 챙겨 준다는 느낌","플랫폼 할인 광고","주소를 매번 다시 불러야 함"], stay:["이름 불러 주는 짧은 감사 문자","작년 그대로 재주문서","거래처 주소록 저장"],
+   ltv:"5년 매출 약 184만 원 (50만~596만), 5년 이익 약 16만 원 · 시나리오", hl:"정미숙은 <span class=red>12월 24일 문자 한 통</span>으로 남습니다."}
+};
+var ORDER=["G","E"];
+var NS="http://www.w3.org/2000/svg";
+function el(t,a,x){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(x!==undefined)e.textContent=x;return e;}
+function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.innerHTML=x;return e;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+var JP={}; J.personas.forEach(function(p){JP[p.id]=p;});
+
+/* 1·2 */
+var faces=document.getElementById('faces'), five=document.getElementById('five');
+ORDER.forEach(function(id,i){var p=P[id];
+  var f=h('div','face'); f.appendChild(h('div','av lg'+(p.badge[1]?' now':''),p.ini)); f.appendChild(h('div','',esc(p.nm)+' <span class="bd bd-fake">가상</span>')); faces.appendChild(f);
+  var c=h('div','pc'); c.style.setProperty('--i',i);
+  c.innerHTML='<div class="who"><div class="av'+(p.badge[1]?' now':'')+'">'+p.ini+'</div><div><div class="nm">'+esc(p.nm)+'</div><span class="bd bd-fake">가상 인물</span></div></div>'+
+   '<div class="one">'+esc(p.one)+'</div><div class="scene">'+esc(p.scene)+'</div>'+
+   '<div><span class="bd '+(p.badge[1]?'bd-now':'bd-plain')+'">'+p.badge[0]+'</span></div>';
+  five.appendChild(c);
+});
+
+/* 세그먼트 */
+function makeSeg(rootId,onPick){
+  var root=document.getElementById(rootId), pill=root.querySelector('.pill'), btns=[];
+  ORDER.forEach(function(id){var p=P[id]; var b=h('button','','<span class="av">'+p.ini+'</span>'+esc(p.nm));
+    b.setAttribute('role','tab'); b.setAttribute('aria-selected','false'); b.dataset.id=id;
+    b.addEventListener('click',function(){pick(id);}); root.appendChild(b); btns.push(b);});
+  function move(b){pill.style.left=b.offsetLeft+'px'; pill.style.width=b.offsetWidth+'px';}
+  function pick(id){btns.forEach(function(b){var on=b.dataset.id===id;b.setAttribute('aria-selected',on);if(on){move(b);}}); onPick(id);}
+  window.addEventListener('resize',function(){btns.forEach(function(b){if(b.getAttribute('aria-selected')==='true')move(b);});});
+  return pick;
+}
+
+/* 3 페르소나 카드 */
+var pcard=document.getElementById('pcard');
+function renderCard(id){var p=P[id];
+  var cal=p.cal.map(function(m){return '<span'+(m[1]?' class="k"':'')+'>'+esc(m[0])+'</span>';}).join('');
+  var who=p.who.map(esc).join(' <i>→</i> ');
+  var give=p.give.map(function(g){return '<div>'+esc(g)+'</div>';}).join('');
+  var em='';
+  if(id==='G') em='<div class="cell em"><div class="lb"><span class="bd bd-voice">실제 증언</span>근거</div><div class="v">'+esc(p.em)+'</div></div>';
+  if(id==='B') em='<div class="cell em"><div class="lb">진짜 경쟁자 <span class="bd bd-est">추정</span></div><div class="v">'+esc(p.em)+'</div></div>';
+  if(id==='E') em='<div class="cell em"><div class="lb">상태 <span class="bd bd-est">추정 설정</span></div><div class="v">'+esc(p.em)+'</div></div>';
+  pcard.innerHTML='<div class="pcard fade-in"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px"><div class="av lg'+(p.badge[1]?' now':'')+'">'+p.ini+'</div><div><b style="color:var(--title);font-size:19px">'+esc(p.nm)+'</b> <span class="bd bd-fake">가상 인물</span><div style="font-size:14px;color:var(--sub)">'+esc(p.role)+' · '+esc(p.one)+'</div></div><span class="bd '+(p.badge[1]?'bd-now':'bd-plain')+'" style="margin-left:auto">'+p.badge[0]+'</span></div>'+
+   '<p class="hl">'+esc(p.scene)+'</p><div class="bubble">"'+esc(p.say)+'" (가상)</div>'+
+   '<div class="pgrid">'+
+    '<div class="cell"><div class="lb">프로필 <span class="bd bd-fake">가상</span></div><div class="v">'+esc(p.prof)+'</div></div>'+
+    '<div class="cell"><div class="lb">1년 선물 달력 <span class="bd bd-est">추정</span></div><div class="months">'+cal+'</div></div>'+
+    '<div class="cell"><div class="lb">누가 고르고 누가 승인하나 <span class="bd bd-est">추정</span></div><div class="flow">'+who+'</div></div>'+
+    '<div class="cell"><div class="lb">가장 무서운 것 <span class="bd bd-est">추정</span></div><div class="v">'+esc(p.fear)+'</div></div>'+
+    '<div class="cell"><div class="lb">우리가 해 줄 것</div><div class="give v">'+give+'</div><div style="margin-top:10px"><span class="bd bd-plain">'+esc(p.rule)+'</span></div></div>'+
+    (em||'<div class="cell em"><div class="lb">떠나는 첫 신호 <span class="bd bd-est">추정</span></div><div class="v">'+esc(p.leave[0])+'</div></div>')+
+   '</div>'+
+   '<details class="more"><summary>자세히: 떠나게 만드는 것과 머물게 하는 것, 5년 매출 범위</summary><div class="ls"><div class="cell"><h4>떠나게 만드는 것</h4><ul>'+p.leave.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div><div class="cell"><h4>머물게 하는 것</h4><ul>'+p.stay.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div></div><p class="src">'+esc(p.ltv)+'</p></details></div>';
+}
+var pickP=makeSeg('segP',renderCard);
+
+/* 4 여정 지도 */
+function pd(s){var m=String(s).match(/(\d{4})-(\d{2})(?:-(\d{2}))?/); if(!m) return null; return new Date(+m[1],+m[2]-1,m[3]?+m[3]:15);}
+var A0=new Date(2026,10,1), A1=new Date(2027,2,1), A2=new Date(2028,0,31);
+var X0=118, XB=640, X1=965;
+function X(d){ if(d<=A1) return X0+(d-A0)/(A1-A0)*(XB-X0); return XB+Math.min(1,(d-A1)/(A2-A1))*(X1-XB); }
+var EY0=70, EY1=196; function EY(v){return EY1-(v+2)/4*(EY1-EY0);}
+var LANES=[["AI 제안","AI 제안"],["AI 안내","AI 안내"],["AI 정산","AI 정산 서류"],["AI 주문·배송","AI 주문·배송"],["AI 정기 알림","AI 정기 알림"]];
+function laneOf(op){ if(/^주·보조/.test(op)) return 0; for(var i=0;i<LANES.length;i++){ if(op.indexOf(LANES[i][0]+':')===0) return i; } return /재주문|문자/.test(op)?4:0; }
+function strip(op){return op.replace(/^[^:：]{1,8}[:：]\s*/,'');}
+var svg=document.getElementById('jsvg');
+var refs=[["2026-11-02","오늘",1],["2026-11-09","D-90",0],["2026-12-09","D-60",0],["2026-12-24","D-45",0],["2027-01-08","D-30",0],["2027-02-07","설",0],["2027-09-15","추석",0]];
+function curvePath(pts){ if(!pts.length) return ''; var d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1); for(var i=1;i<pts.length;i++){var a=pts[i-1],b=pts[i],mx=(a[0]+b[0])/2; d+=' C'+mx.toFixed(1)+' '+a[1].toFixed(1)+' '+mx.toFixed(1)+' '+b[1].toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1);} return d; }
+// static frame
+(function(){
+  svg.appendChild(el('rect',{x:X0-4,y:EY0-8,width:X1-X0+8,height:EY1-EY0+16,rx:10,fill:'var(--bg)'}));
+  [["안도",2],["보통",0],["불안",-2]].forEach(function(t){svg.appendChild(el('text',{x:X0-12,y:EY(t[1])+4,'text-anchor':'end',style:'font-weight:600'},t[0]));});
+  svg.appendChild(el('text',{x:12,y:EY0-26,style:'font-weight:700;fill:var(--body)'},'추정 감정(설계값)'));
+  var LY0=244; LANES.forEach(function(l,i){var y=LY0+i*40; svg.appendChild(el('rect',{x:X0-4,y:y-14,width:X1-X0+8,height:28,rx:8,class:'lanebg'})); svg.appendChild(el('text',{x:X0-12,y:y+4,'text-anchor':'end',class:'lane'},l[1]));});
+  svg.appendChild(el('text',{x:(X0+X1)/2,y:LY0+2*40+5,'text-anchor':'middle',class:'empty'},'지금은 아무도 먼저 연락하지 않습니다'));
+  refs.forEach(function(r){var x=X(pd(r[0])); svg.appendChild(el('line',{x1:x,x2:x,y1:24,y2:LY0+4*40+16,class:r[2]?'today':'ref'})); svg.appendChild(el('text',{x:x,y:16,'text-anchor':'middle',class:'reflab',style:r[2]?'fill:var(--red);font-weight:700':''},r[1]));});
+  [["2026-11-01","11월"],["2026-12-01","12월"],["2027-01-01","27년 1월"],["2027-02-01","2월"],["2027-03-01","3월"],["2027-06-01","6월"],["2027-09-01","9월"],["2027-12-01","12월"]].forEach(function(m){svg.appendChild(el('text',{x:X(pd(m[0])),y:458,'text-anchor':'middle'},m[1]));});
+  svg.appendChild(el('path',{d:'M'+XB+' 446 l-4 6 m8 -6 l-4 6',stroke:'var(--sub)','stroke-width':1}));
+})();
+var gGap=el('path',{class:'gap'}), gAs=el('path',{class:'asis'}), gTo=el('path',{class:'tobe'}), dyn=el('g',{});
+svg.appendChild(gGap); svg.appendChild(gAs); svg.appendChild(gTo); svg.appendChild(dyn);
+var stagesEl=document.getElementById('stages'), sheet=document.getElementById('sheet'), sheetBg=document.getElementById('sheetBg');
+function openSheet(s){ document.getElementById('shT').textContent=s.key+' · '+s.date;
+  var rows=[["이 사람이 하는 일",s.doing],["속마음 (가상)","\""+s.thought+"\" (가상)"],["걸리는 점",s.pain],["AI 에이전트가 할 일",strip(s.opportunity)],["이탈 신호",s.churnSignal],["측정 지표",s.metric],["근거",s.basis]];
+  document.getElementById('shB').innerHTML=rows.map(function(r){return '<div class="row"><div class="lb">'+r[0]+'</div><div class="v">'+esc(r[1])+'</div></div>';}).join('');
+  sheet.classList.add('open'); sheetBg.classList.add('open'); document.getElementById('shC').focus(); }
+function closeSheet(){sheet.classList.remove('open'); sheetBg.classList.remove('open');}
+sheetBg.addEventListener('click',closeSheet); document.getElementById('shC').addEventListener('click',closeSheet);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet();});
+function renderJ(id){
+  var jp=JP[id], p=P[id]; document.getElementById('jhl').innerHTML=p.hl;
+  var st=jp.stages.map(function(s){var d=pd(s.date)||A0; return {s:s,x:X(d)};});
+  var asP=st.map(function(o){return [o.x,EY(o.s.emoAsIs)];}), toP=st.map(function(o){return [o.x,EY(o.s.emoToBe)];});
+  gAs.setAttribute('d',curvePath(asP)); gTo.setAttribute('d',curvePath(toP));
+  var back=toP.slice().reverse(), gd=curvePath(asP); if(back.length){ gd+=' L'+back[0][0].toFixed(1)+' '+back[0][1].toFixed(1); var r=curvePath(back); gd+=r.replace(/^M[^C]*/,''); gd+=' Z'; } gGap.setAttribute('d',gd);
+  while(dyn.firstChild) dyn.removeChild(dyn.firstChild);
+  var used={};
+  st.forEach(function(o,i){var s=o.s;
+    var c=el('circle',{cx:o.x,cy:EY(s.emoAsIs),r:s.moment?6:4.5,class:'sp'+(s.moment?' mo':''),tabindex:0,role:'button','aria-label':s.key+' 자세히'});
+    c.addEventListener('click',function(){openSheet(s);}); dyn.appendChild(c);
+    if(s.moment){ dyn.appendChild(el('circle',{cx:o.x,cy:EY(s.emoAsIs),r:6,class:'ring'})); }
+    if(s.phase){ var w=s.phase.length*11+18, ty=EY(Math.max(s.emoAsIs,s.emoToBe))-14; var g=el('g',{class:'dot'}); g.appendChild(el('rect',{x:o.x-w/2,y:ty-12,width:w,height:17,rx:8,class:'phbg'})); g.appendChild(el('text',{x:o.x,y:ty,'text-anchor':'middle',class:'ph'},s.phase==='결정'?'구매 결정':s.phase==='충성'?'충성 전환':s.phase)); dyn.appendChild(g);}
+    var ln=laneOf(s.opportunity), y=244+ln*40; var key=ln+'_'+Math.round(o.x/18); var shift=(used[key]||0); used[key]=shift+1; var cx=o.x+shift*17;
+    var g2=el('g',{class:'dot',style:'cursor:pointer'}); g2.appendChild(el('circle',{cx:cx,cy:y,r:8.5,fill:'var(--red)'})); g2.appendChild(el('text',{x:cx,y:y+3.5,'text-anchor':'middle',style:'fill:#fff;font-size:10px;font-weight:800'},String(i+1)));
+    var tt=el('title',{}); tt.textContent=strip(s.opportunity); g2.appendChild(tt); g2.addEventListener('click',function(){openSheet(s);}); dyn.appendChild(g2);
+  });
+  stagesEl.innerHTML='';
+  jp.stages.forEach(function(s,i){var b=h('button','st'+(s.moment?' mo':''));
+    var tags=(s.moment?'<span class="tg m">결정적 순간</span>':'')+(s.phase?'<span class="tg">'+(s.phase==='결정'?'구매 결정':s.phase==='충성'?'충성 전환':s.phase)+'</span>':'');
+    b.innerHTML='<span class="d"><b class="sn">'+(i+1)+'</b>'+esc(s.date)+'</span><span class="k">'+esc(s.key)+'</span><span class="w">'+esc(s.doing)+'</span><span class="o">'+esc(strip(s.opportunity))+'</span><span class="tags">'+tags+'</span>';
+    b.addEventListener('click',function(){openSheet(s);}); stagesEl.appendChild(b);});
+  function steps(txt){return txt.split(/→|,/).map(function(x){return x.trim();}).filter(Boolean);}
+  document.getElementById('stories').innerHTML='<div class="story"><h4>이렇게 떠납니다 <span class="bd bd-est">추정 시나리오</span></h4><div class="steps">'+steps(jp.churnStory).map(function(x,i){return '<div><b>'+(i+1)+'</b><span>'+esc(x)+'</span></div>';}).join('')+'</div></div>'+
+    '<div class="story grow"><h4>이렇게 커집니다 <span class="bd bd-est">추정 시나리오</span></h4><div class="steps">'+steps(jp.growStory).map(function(x,i){return '<div style="--i:'+i+'"><b>'+(i+1)+'</b><span>'+esc(x)+'</span></div>';}).join('')+'</div></div>';
+  document.getElementById('cal12').innerHTML=jp.calendar.map(function(m){var mm=m.month.split('-'); return '<div><b>'+mm[0].slice(2)+'.'+mm[1]+'</b>'+esc(m.action)+'</div>';}).join('');
+}
+var pickJ=makeSeg('segJ',renderJ);
+var tAs=document.getElementById('tAs'), tTo=document.getElementById('tTo');
+function mode(to){stagesEl.classList.toggle('asis-view',!to);svg.classList.toggle('tobe-mode',to); svg.classList.toggle('asis-mode',!to); tAs.setAttribute('aria-pressed',!to); tTo.setAttribute('aria-pressed',to);}
+tAs.addEventListener('click',function(){mode(false);}); tTo.addEventListener('click',function(){mode(true);});
+
+/* 5 다음 100일 */
+var H0=new Date(2026,10,2), H1=new Date(2027,1,15), HX0=110, HX1=985;
+function HX(d){return HX0+(d-H0)/(H1-H0)*(HX1-HX0);}
+var hs=document.getElementById('hsvg');
+LANES.forEach(function(l,i){var y=46+i*52; hs.appendChild(el('rect',{x:HX0-6,y:y-18,width:HX1-HX0+12,height:36,rx:9,fill:'var(--card)'})); hs.appendChild(el('text',{x:HX0-14,y:y+4,'text-anchor':'end',class:'lane'},l[1]));});
+[["2026-11-02","오늘",1],["2026-11-09","D-90"],["2026-12-01","12월"],["2026-12-09","D-60"],["2026-12-24","D-45"],["2027-01-01","1월"],["2027-01-08","D-30"],["2027-02-01","2월"],["2027-02-07","설"]].forEach(function(r){var x=HX(pd(r[0])); hs.appendChild(el('line',{x1:x,x2:x,y1:20,y2:300,stroke:r[2]?'var(--red)':'var(--line)','stroke-width':r[2]?1.5:1})); hs.appendChild(el('text',{x:x,y:318,'text-anchor':'middle',style:r[2]?'fill:var(--red);font-weight:700':''},r[1]));});
+var evs=[], stack={};
+ORDER.forEach(function(id){ JP[id].stages.forEach(function(s){ var d=pd(s.date); if(!d||d<H0||d>H1) return; var ln=laneOf(s.opportunity); var x=HX(d); var key=ln+'_'+Math.round(x/22); var k=stack[key]||0; stack[key]=k+1;
+  var y=46+ln*52; var g=el('g',{class:'ev','data-id':id}); var cx=x+k*15; if(cx>HX1-4) cx=x-(k)*15-6; g.appendChild(el('circle',{cx:cx,cy:y,r:9,class:'evc'})); g.appendChild(el('text',{x:cx,y:y+3.5,'text-anchor':'middle',class:'evt'},P[id].ini));
+  var t=el('title',{}); t.textContent=P[id].nm+' · '+s.date+' · '+strip(s.opportunity); g.appendChild(t); hs.appendChild(g); evs.push(g); }); });
+var chips=document.getElementById('chips'), cur=null;
+function chip(id,label){var b=h('button','',label); b.setAttribute('aria-pressed',id===null); b.addEventListener('click',function(){cur=id; [].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed',c===b);}); evs.forEach(function(g){g.classList.toggle('dim', cur!==null && g.getAttribute('data-id')!==cur);});}); chips.appendChild(b);}
+chip(null,'모두'); ORDER.forEach(function(id){chip(id,'<span class="av" style="width:20px;height:20px;font-size:10px">'+P[id].ini+'</span>'+esc(P[id].nm));});
+
+/* 6 비교표 */
+(function(){var rows=[["결정적 순간",{C:"12월 둘째 주 \"예산 10% 줄여\" 직후",G:"12월 첫 주 세 갈래 견적 충돌",A:"1/18 납품 3일 뒤 증빙",B:"12/28~1/8 설 직원 선물 방식 결정",E:"1/11 아침 대표 \"작년처럼\" + 할인 광고"}],
+ ["가장 큰 기회",{C:"12/9 '작년 그대로 + 3안' 결재 양식",G:"세 갈래 연간 묶음 + 받는 사람 구분 발송",A:"공공 증빙 패키지 + 3월 단가표",B:"'전화번호만 주세요' 선택형 발송 대행",E:"12/24 원클릭 재주문 문자"}],
+ ["가장 큰 이탈 위험",{C:"교환 처리 늦음, 추석 무연락 → 대형마트 사전예약",G:"양쪽 담당 교체 → 회원사 감사만 다른 업체로",A:"증빙 재요청 → 할인율 높은 곳으로 예산 편성",B:"연말 뒤 무연락 → 설 직원 선물은 플랫폼으로",E:"3년째인데 무연락 → 플랫폼 가입"}],
+ ["AI가 보내는 첫 연락",{G:"11/9 세 갈래 연간 일정표 (단체 메일)",E:"12/24 '작년 그대로' 주문 버튼 문자"}]];
+ var t=document.getElementById('cmp'); var hd='<thead><tr><th></th>'+ORDER.map(function(id){return '<th>'+esc(P[id].nm)+' <span class="bd bd-fake">가상</span></th>';}).join('')+'</tr></thead>';
+ t.innerHTML=hd+'<tbody>'+rows.map(function(r){return '<tr><td class="rh">'+r[0]+'</td>'+ORDER.map(function(id){return '<td>'+r[1][id]+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';})();
+
+/* 8 범위 차트 (로그) */
+(function(){var s=document.getElementById('rsvg'); var L0=Math.log10(1), L1=Math.log10(10000), x0=190, x1=880; function LX(v){return x0+(Math.log10(v)-L0)/(L1-L0)*(x1-x0);}
+ [1,10,100,1000,10000].forEach(function(v){var x=LX(v); s.appendChild(el('line',{x1:x,x2:x,y1:14,y2:106,stroke:'var(--line)'})); s.appendChild(el('text',{x:x,y:126,'text-anchor':'middle'},v>=10000?(v/10000)+'억':v.toLocaleString('ko-KR')+'만'));});
+ var R=[["G","윤재현 (경제단체)",12,178,959],["E","정미숙 (12명 회사)",2,16,82]];
+ R.forEach(function(r,i){var y=34+i*42; s.appendChild(el('text',{x:x0-12,y:y+4,'text-anchor':'end',class:'nm'},r[1]));
+  s.appendChild(el('rect',{x:LX(r[2]),y:y-7,width:LX(r[4])-LX(r[2]),height:14,rx:7,fill:P[r[0]].badge[1]?'var(--red-soft)':'var(--card)',stroke:P[r[0]].badge[1]?'var(--red)':'var(--grey)','stroke-dasharray':'4 3'}));
+  s.appendChild(el('circle',{cx:LX(r[3]),cy:y,r:5,fill:P[r[0]].badge[1]?'var(--red)':'var(--ink)'}));
+  s.appendChild(el('text',{x:LX(r[3]),y:y-12,'text-anchor':'middle',style:'font-weight:700;fill:var(--title)'},r[3].toLocaleString('ko-KR')+'만'));});})();
+
+/* 진입 애니메이션, 내비 */
+pickP('G'); pickJ('G');
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function countUp(node,to,dur){var t0=null;function st(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/dur);node.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(st);}requestAnimationFrame(st);}
+if(!reduce) countUp(document.getElementById('cnt7'),7,600);
+if('IntersectionObserver' in window){
+  if(!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('anim');io.unobserve(e.target);}});},{threshold:.2}); document.querySelectorAll('.anim-target').forEach(function(s){io.observe(s);});}
+  var links=[].slice.call(document.querySelectorAll('.top nav a'));
+  var nio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('main section[id]').forEach(function(s){nio.observe(s);});
+}
+</script>
+
+</body></html>
